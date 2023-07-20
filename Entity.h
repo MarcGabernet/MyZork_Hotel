@@ -19,10 +19,10 @@ enum entityType
 class Entity 
 {
 public:
-	Entity(string name, string description, Entity* location);
+	Entity(const char* name, const char* description, Entity* location);
 	~Entity();
 
-	void Look();
+	virtual void Look();
 
 	void ChangeLocation(Entity* newLocation);
 

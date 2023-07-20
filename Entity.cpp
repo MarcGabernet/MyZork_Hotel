@@ -7,7 +7,7 @@ using namespace std;
 Entity::~Entity() {};
 
 //----------------------------------------------------------------------------------
-Entity::Entity(string name, string description, Entity* location = NULL) :
+Entity::Entity(const char* name, const char* description, Entity* location = NULL) :
 name(name), description(description), location(location)
 {
 	type = ENTITY;
@@ -17,7 +17,7 @@ name(name), description(description), location(location)
 //-----------------------------
 void Entity::Look()
 {
-	cout << name << endl;
+	cout << "\n" << name << endl;
 	cout << description << endl;
 
 }

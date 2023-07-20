@@ -13,7 +13,7 @@ class Room;
 class Exit: public Entity
 {
 public:
-	Exit(Room* origin, Room* destination, const char* direction, const char* oppositeDirection, bool isOpen, bool isLocked);
+	Exit(Room* origin, Room* destination, const char* direction, const char* oppositeName, bool isOpen, bool isLocked);
 	~Exit();
 
 	string GetDirection(Room* currentRoom);
@@ -22,7 +22,7 @@ public:
 public:
 	Room* origin;
 	Room* destination;
-	string oppositeDirection;
+	string oppositeName;
 
 	bool isOpen = true;
 	bool isLocked = false;

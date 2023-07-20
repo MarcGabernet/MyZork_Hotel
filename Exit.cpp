@@ -7,13 +7,14 @@ using namespace std;
 Exit::~Exit() {};
 
 //-----------------------------------------------------------------------------------------------------------------------
-Exit::Exit(Room* origin, Room* destination, const char* direction, const char* oppositeDirection, bool isOpen, bool isLocked) :
+Exit::Exit(Room* origin, Room* destination, const char* direction, const char* oppositeName, bool isOpen, bool isLocked) :
 	Entity(direction, "exit", NULL),
-	origin(origin), destination(destination), oppositeDirection(oppositeDirection), isOpen(isOpen), isLocked(isLocked)
+	origin(origin), destination(destination), oppositeName(oppositeName), isOpen(isOpen), isLocked(isLocked)
 {
 	type = EXIT;
 };
 
+//------------------------------------------
 string Exit::GetDirection(Room* currentRoom)
 {
 	string currentDirection;
@@ -23,11 +24,12 @@ string Exit::GetDirection(Room* currentRoom)
 	}
 	else if (currentRoom == destination)
 	{
-		currentDirection = oppositeDirection;
+		currentDirection = oppositeName;
 	}
 	return currentDirection;
 }
 
+//-------------------------------------------
 Room* Exit::GetDestination(Room* currentRoom)
 {
 	if (currentRoom == origin)

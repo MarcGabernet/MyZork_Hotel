@@ -13,6 +13,8 @@ public:
 	World();
 	~World();
 
+	bool ReadCommand(const vector<string>& args);
+
 public:
 	vector<Entity*> things;
 };

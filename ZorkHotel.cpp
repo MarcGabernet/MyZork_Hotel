@@ -5,6 +5,7 @@
 
 #include "Entity.h"
 #include "World.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -16,9 +17,11 @@ int main()
 
     World world;
 
-    cout << "Hotel!\n\n> ";
+    cout << "Hotel!\n";
 
-    //Entity* dude = new Entity("Pep", "Weird looking fella", NULL);
+    world.things[0]->Look();
+
+    cout << "> ";
 
     while (true)
     {
@@ -31,16 +34,10 @@ int main()
 
         if (args.size() > 0 && (args[0] == "quit" || args[0] == "Quit" || args[0] == "q" || args[0] == "Q"))
             break;
-        else if (args[0] == "look") 
+        else if (world.ReadCommand(args) == false)
         {
-            for (vector<Entity*>::const_iterator it = world.things.begin(); it != world.things.cend(); ++it)
-            {
-                (*it)->Look();
-            }
+            cout << "\nSorry I don't understand this command\n";
         }
-
-        for (const string& a : args)
-            cout << a << endl;
 
         if (args.size() > 0)
         {

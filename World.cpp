@@ -4,6 +4,7 @@
 #include "Exit.h"
 #include "Entity.h"
 #include "Room.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -15,12 +16,12 @@ World::World()
 {
 	//Rooms: Outside
 
-	const char* outsideDescription = "Outside of the Hotel: You see the building stand tall in front of you, so tall you can't see the top.\nIt's the only thing that breaks the monotony of the void that surrounds you.\n";
+	const char* outsideDescription = "You are outside of the Hotel. You see the building standing tall in front of you, so tall you can't see the top.\nIt's the only thing that breaks the monotony of the void that surrounds you.\n";
 
-	Room* southOfHotel = new Room("South Of Hotel", outsideDescription);
-	Room* eastOfHotel = new Room("East Of Hotel", outsideDescription);
-	Room* westOfHotel = new Room("West Of Hotel", outsideDescription);
-	Room* northOfHotel = new Room("West Of Hotel", outsideDescription);
+	Room* southOfHotel = new Room("South Of the Hotel", outsideDescription);
+	Room* eastOfHotel = new Room("East Of the Hotel", outsideDescription);
+	Room* westOfHotel = new Room("West Of the Hotel", outsideDescription);
+	Room* northOfHotel = new Room("West Of the Hotel", outsideDescription);
 
 	things.push_back(southOfHotel);
 	things.push_back(eastOfHotel);
@@ -51,11 +52,18 @@ World::World()
 	const char* e = "east";
 
 	//Exits: Outside
-	
 	Exit* exitSW = new Exit(southOfHotel, westOfHotel, w, s, true, false);
+		southOfHotel->entitiesContained.push_back(exitSW);
+		westOfHotel->entitiesContained.push_back(exitSW);
 	Exit* exitNW = new Exit(westOfHotel, northOfHotel, n, w, true, false);
+		northOfHotel->entitiesContained.push_back(exitNW);
+		westOfHotel->entitiesContained.push_back(exitNW);
 	Exit* exitNE = new Exit(northOfHotel, eastOfHotel, e, n, true, false);
+		northOfHotel->entitiesContained.push_back(exitNE);
+		eastOfHotel->entitiesContained.push_back(exitNE);
 	Exit* exitSE = new Exit(eastOfHotel, southOfHotel, s, e, true, false);
+		southOfHotel->entitiesContained.push_back(exitSE);
+		eastOfHotel->entitiesContained.push_back(exitSE);
 
 	things.push_back(exitSW);
 	things.push_back(exitNW);
@@ -63,10 +71,16 @@ World::World()
 	things.push_back(exitSE);
 	
 	//Exits: Outside to Inside
-
 	Exit* exitMainDoor = new Exit(southOfHotel, entranceHall, n, s, false, true);
+	exitMainDoor->description = "Door";
+		southOfHotel->entitiesContained.push_back(exitMainDoor);
+		entranceHall->entitiesContained.push_back(exitMainDoor);
 	Exit* exitWindow = new Exit(eastOfHotel, diningRoom, w, e, false, false);
+	exitWindow->description = "Window";
+		eastOfHotel->entitiesContained.push_back(exitWindow);
+		diningRoom->entitiesContained.push_back(exitWindow);
 	Exit* exitBackDoor = new Exit(northOfHotel, kitchen, s, n, false, false);
+	exitBackDoor->description = "Door";
 
 	things.push_back(exitMainDoor);
 	things.push_back(exitWindow);
@@ -88,7 +102,18 @@ World::World()
 	things.push_back(exitKitchenDining);
 	things.push_back(exitDiningHallway);
 	things.push_back(exitHallwayHall);
-
 	things.push_back(exitHallwayElevator);
 
+	Player* player = new Player("...", "you... who are you? ... who WERE you?", southOfHotel);
+
+	things.push_back(player);
+}
+
+bool World::ReadCommand(const vector<string>& args) 
+{
+	if (args[0] == "yo") 
+	{
+		return true;
+	}
+	return false;
 }

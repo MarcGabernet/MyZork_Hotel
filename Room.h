@@ -17,7 +17,6 @@ public:
 	
 	void Look();
 
-	//Exit* GetExit();
 };
 
 #endif
