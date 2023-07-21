@@ -19,9 +19,9 @@ int main()
 
     cout << "Hotel!\n";
 
-    world.things[0]->Look();
+    world.player->location->Look();
 
-    cout << "> ";
+    cout << "\n> ";
 
     while (true)
     {
@@ -34,7 +34,7 @@ int main()
 
         if (args.size() > 0 && (args[0] == "quit" || args[0] == "Quit" || args[0] == "q" || args[0] == "Q"))
             break;
-        else if (world.ReadCommand(args) == false)
+        else if (world.ExecuteCommand(args) == false)
         {
             cout << "\nSorry I don't understand this command\n";
         }

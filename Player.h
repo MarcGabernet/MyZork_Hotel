@@ -5,10 +5,9 @@
 #include <vector>
 
 #include "Entity.h"
+#include "Room.h"
 
 using namespace std;
-
-class Room;
 
 class Player : public Entity
 {
@@ -30,7 +29,7 @@ public:
 	void Read(const vector<string>& args);
 	void Talk(const vector<string>& args);
 	void Throw(const vector<string>& args);
-	void Travel(const vector<string>& args);
+	void Travel(const char* direction);
 
 public:
 	bool hasHeart = false;

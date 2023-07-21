@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Entity.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -13,10 +14,11 @@ public:
 	World();
 	~World();
 
-	bool ReadCommand(const vector<string>& args);
+	bool ExecuteCommand(const vector<string>& args);
 
 public:
 	vector<Entity*> things;
+	Player* player;
 };
 
 #endif

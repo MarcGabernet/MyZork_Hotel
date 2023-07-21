@@ -27,6 +27,16 @@ void Room::Look()
 			Exit* ex = (Exit*)*it;
 			cout << "\nTo the " << ex->GetDirection(this) << " there is the " << ex->GetDestination(this)->name;
 		}
+		if ((*it)->type == ITEM)
+		{
+			//Exit* ex = (Exit*)*it;
+			//cout << "\nTo the " << ex->GetDirection(this) << " there is the " << ex->GetDestination(this)->name;
+		}
+		if ((*it)->type == NPC)
+		{
+			//Exit* ex = (Exit*)*it;
+			//cout << "\nTo the " << ex->GetDirection(this) << " there is the " << ex->GetDestination(this)->name;
+		}
 	}
-	cout << "\n\n";
+	cout << "\n";
 }
