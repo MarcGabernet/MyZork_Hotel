@@ -25,15 +25,15 @@ public:
 	void Inventory();//------------------------
 	void Kick(const string obj);
 	void Look();//------------------------
+	void Look(const string obj);//------------------------
 	void Move(const vector<string>& args);
 	void Open();//------------------------
 	void Open(const string door);//------------------------
 	void PickUp(const string obj);//------------------------
-	void Press(const vector<string>& args);
-	void Read(const string obj);
-	void Talk(const vector<string>& args);
+	void Press(const string obj);
+	void Read(const string obj);//------------------------
+	void TalkTo(const vector<string>& args);
 	void Throw(const string obj);
-	void Throw(const vector<string>& args);
 	void Travel(const char* direction);//------------------------
 
 public:

@@ -62,7 +62,7 @@ void Player::Inventory()
 	}
 	else 
 	{
-		cout << "\nYou have also found your heart and returned it to its place.\n";
+		cout << "\nYou have also found your heart and returned it to its place. You don't feel so empty.\n";
 	}
 }
 
@@ -114,11 +114,31 @@ void Player::Kick(const string obj)
 	}
 }
 
-//-------------------
+//-----------------
 void Player::Look() 
 {
 	Entity::Look();
 	cout << description2 << "\n";
+}
+
+//-----------------
+void Player::Look(const string obj)
+{
+	bool looked = false;
+
+	for (list<Entity*>::const_iterator it = location->entitiesContained.begin(); it != location->entitiesContained.cend(); ++it)
+	{
+		if ((*it)->type != EXIT && (*it)->name == obj)
+		{
+			(*it)->Look();
+			looked = true;
+			break;
+		}
+	}
+	if (!looked) 
+	{
+		cout << "Nothing to look at with that name\n";
+	}
 }
 
 //-------------------
@@ -189,6 +209,38 @@ void Player::PickUp(const string obj)
 	if (!pickedUp) 
 	{
 		cout << "Nothing to pick up with this name.\n";
+	}
+}
+
+//---------------------------------
+void Player::Read(const string obj)
+{
+	bool red = false;
+
+	for (list<Entity*>::const_iterator it = location->entitiesContained.begin(); it != location->entitiesContained.cend(); ++it)
+	{
+		if ((*it)->type == ITEM)
+		{
+			Item* item = (Item*)*it;
+			if (item->name == obj)
+			{
+				red = true;
+				if (item->readableInfo == nullptr) 
+				{
+					cout << "There is nothing to read on the " << item->name << "\n";
+					break;
+				}
+				else 
+				{
+					cout << item->readableInfo << "\n";
+					break;
+				}
+			}
+		}
+	}
+	if (!red)
+	{
+		cout << "Nothing to read with this name\n";
 	}
 }
 

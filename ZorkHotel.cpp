@@ -17,7 +17,11 @@ int main()
 
     World world;
 
-    cout << "Hotel!\n\n";
+    cout << "My Zork: Hotel\n\n";
+
+    cout << "You find yourself in a floating island. In this island there is only one building, a Hotel.\n";
+    cout << "You don't seem to be on Earth, but you're not in space either since you're still breathing.\n";
+    cout << "All that surrounds you is an unnatural void. You wouldn't want to get lost in it.\n\n";
 
     world.player->location->Look();
 

@@ -30,14 +30,15 @@ void Room::Look()
 	{
 		if ((*it)->type == ITEM)
 		{
-			cout << "\n- A " << (*it)->name << "\n";
+			cout << "\n- A " << (*it)->name;
 			itemsInRoom = true;
 		}
 	}
 	if (!itemsInRoom) 
 	{
-		cout << "\nNothing\n";
+		cout << "\nNothing";
 	}
+	cout << "\n";
 
 	//List of exits
 	for (list<Entity*>::const_iterator it = entitiesContained.begin(); it != entitiesContained.cend(); ++it)
@@ -60,7 +61,7 @@ void Room::Look()
 	{
 		if ((*it)->type == NPC)
 		{
-			cout << "\nAlse, someone is here: The" << (*it)->name << "\n";
+			cout << "\nAlso, someone is here: The" << (*it)->name << "\n";
 		}
 	}
 	cout << "\n";
