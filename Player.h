@@ -23,7 +23,7 @@ public:
 	void Inventory(const vector<string>& args);
 	void Look(const vector<string>& args);
 	void Move(const vector<string>& args);
-	void Open(const vector<string>& args);
+	void Open(const string door);
 	void Pick(const vector<string>& args);
 	void Press(const vector<string>& args);
 	void Read(const vector<string>& args);

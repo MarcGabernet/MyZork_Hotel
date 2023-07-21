@@ -25,7 +25,14 @@ void Room::Look()
 		if ((*it)->type == EXIT)
 		{
 			Exit* ex = (Exit*)*it;
-			cout << "\nTo the " << ex->GetDirection(this) << " there is the " << ex->GetDestination(this)->name;
+			if (ex->description == "exit") 
+			{
+				cout << "\nTo the " << ex->GetDirection(this) << " there is the " << ex->GetDestination(this)->name;
+			}
+			else 
+			{
+				cout << "\nTo the " << ex->GetDirection(this) << " there is a " << ex->description << " that connects to the " << ex->GetDestination(this)->name;
+			}
 		}
 		if ((*it)->type == ITEM)
 		{

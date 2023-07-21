@@ -109,6 +109,7 @@ World::World()
 		hallway->entitiesContained.push_back(exitHallwayHall);
 
 	Exit* exitHallwayElevator = new Exit(hallway, elevator, s, n, false, true);
+	exitHallwayElevator->description = "elevator";
 		hallway->entitiesContained.push_back(exitHallwayElevator);
 
 
@@ -128,30 +129,58 @@ World::World()
 
 bool World::ExecuteCommand(const vector<string>& args) 
 {
-	if (args[0] == "w" || args[0] == "W" || args[0] == "west" || args[0] == "West")
+	bool executed = true;
+	switch (args.size()) 
 	{
-		player->Travel("west");
-		return true;
+		case 1:
+			if (args[0] == "w" || args[0] == "W" || args[0] == "west" || args[0] == "West")
+			{
+				player->Travel("west");
+			}
+			else if (args[0] == "s" || args[0] == "S" || args[0] == "south" || args[0] == "South")
+			{
+				player->Travel("south");
+			}
+			else if (args[0] == "e" || args[0] == "E" || args[0] == "east" || args[0] == "East")
+			{
+				player->Travel("east");
+			}
+			else if (args[0] == "n" || args[0] == "N" || args[0] == "north" || args[0] == "North")
+			{
+				player->Travel("north");
+			}
+			else if (args[0] == "look")
+			{
+				player->location->Look();
+			}
+			else if (args[0] == "open" || args[0] == "Open")
+			{
+				player->Open(" ");
+			}
+			else 
+			{
+				executed = false;
+			}
+			break;
+
+		case 2:
+			if (args[0] == "open" || args[0] == "Open")
+			{
+				player->Open(args[1]);
+			}
+			else
+			{
+				executed = false;
+			}
+			break;
+		case 3: 
+
+			break;
+		default:
+			executed = false;
+			break;
 	}
-	else if (args[0] == "s" || args[0] == "S" || args[0] == "south" || args[0] == "South")
-	{
-		player->Travel("south");
-		return true;
-	}
-	else if (args[0] == "e" || args[0] == "E" || args[0] == "east" || args[0] == "East")
-	{
-		player->Travel("east");
-		return true;
-	}
-	else if (args[0] == "n" || args[0] == "N" || args[0] == "north" || args[0] == "North")
-	{
-		player->Travel("north");
-		return true;
-	}
-	else if (args[0] == "look") 
-	{
-		player->location->Look();
-		return true;
-	}
-	return false;
+
+	
+	return executed;
 }

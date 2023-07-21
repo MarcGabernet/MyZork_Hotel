@@ -13,6 +13,44 @@ Player::Player(const char* name, const char* description, Room* location) :
 	type = PLAYER;
 };
 
+//--------------------------------------
+void Player::Open(const string door)
+{
+	bool validName = false;
+
+	if (door == " ") 
+	{
+		cout << "What do you want to open?\n";
+		validName = true;
+	}
+
+	for (list<Entity*>::const_iterator it = location->entitiesContained.begin(); it != location->entitiesContained.cend(); ++it)
+	{
+		if ((*it)->type == EXIT)
+		{
+			Exit* ex = (Exit*)*it;
+			if (!ex->isOpen && ex->description == door) 
+			{
+				if (!ex->isLocked) 
+				{
+					ex->isOpen = true;
+					cout << "You opened the " << ex->description << "!\n";
+				}
+				else 
+				{
+					cout << "You can't open the " << ex->description << ", it's locked!\n";
+				}
+				validName = true;
+				break;
+			}
+		}
+	}
+	if (!validName) 
+	{
+		cout << "This can't be opened\n";
+	}
+}
+
 //----------------------------------------
 void Player::Travel(const char* direction) 
 {
@@ -32,7 +70,7 @@ void Player::Travel(const char* direction)
 				}
 				else
 				{
-					cout << "This exit is closed!\n";
+					cout << "The " << ex->description << " is closed!\n";
 				}
 				break;
 			}
