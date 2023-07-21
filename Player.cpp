@@ -7,8 +7,9 @@ using namespace std;
 Player::~Player() {};
 
 //-----------------------------------------------------------------------------------------------------------------------
-Player::Player(const char* name, const char* description, Room* location) :
-	Entity(name, description, (Entity*) location)
+Player::Player(const char* name, const char* description, string description2, Room* location) :
+	Entity(name, description, (Entity*) location), 
+	description2(description2)
 {
 	type = PLAYER;
 };
@@ -68,7 +69,56 @@ void Player::Inventory()
 //----------------------------------
 void Player::Kick(const string obj)
 {
-	
+	bool kicked = false;
+
+	for (list<Entity*>::const_iterator it = location->entitiesContained.begin(); it != location->entitiesContained.cend(); ++it)
+	{
+		if ((*it)->type == EXIT)
+		{
+			Exit* ex = (Exit*)*it;
+			if (ex->description == obj)
+			{
+				kicked = true;
+				if (ex->isOpen == true)
+				{
+					cout << "Why would you kick the " << ex->description << "? It's already open!\n";
+					break;
+				}
+				else if(ex->isLocked == false || (ex->isLocked == true && ex->key == NULL))
+				{
+					cout << "You kicked the " << ex->description << " so hard it opened!\n";
+					ex->isLocked = false;
+					ex->isOpen = true;
+					break;
+				}
+				else if(ex->isLocked == true && ex->key != NULL)
+				{
+					cout << "Even kicking the " << ex->description << " won't open it! It looks like you need a key.\n";
+					break;
+				}
+			}
+		}
+		else 
+		{
+			if ((*it)->name == obj) 
+			{
+				cout << "Kicking the " << (*it)->name << " won't do anything.\n";
+				kicked = true;
+				break;
+			}
+		}
+	}
+	if (!kicked) 
+	{
+		cout << "You tried to kick something but failed!";
+	}
+}
+
+//-------------------
+void Player::Look() 
+{
+	Entity::Look();
+	cout << description2 << "\n";
 }
 
 //-------------------
@@ -112,7 +162,34 @@ void Player::Open(const string door)
 //-----------------------------------
 void Player::PickUp(const string obj) 
 {
-	
+	bool pickedUp = false;
+
+	for (list<Entity*>::const_iterator it = location->entitiesContained.begin(); it != location->entitiesContained.cend(); ++it)
+	{
+		if ((*it)->type == ITEM)
+		{
+			Item* item = (Item*)*it;
+			if (item->name == obj) {
+				pickedUp = true;
+				if (item->pickable == true)
+				{
+					cout << "You picked up the " << item->name << "!\n";
+					item->ChangeLocation(this);
+					break;
+				}
+				else 
+				{
+					cout << "How are you going to pick up a " << item->name << "? Can't be done.\n";
+					break;
+				}
+			}
+			
+		}
+	}
+	if (!pickedUp) 
+	{
+		cout << "Nothing to pick up with this name.\n";
+	}
 }
 
 //----------------------------------------

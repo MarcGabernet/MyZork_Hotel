@@ -17,7 +17,7 @@ int main()
 
     World world;
 
-    cout << "Hotel!\n";
+    cout << "Hotel!\n\n";
 
     world.player->location->Look();
 

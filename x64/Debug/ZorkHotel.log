@@ -1,2 +1,8 @@
-﻿  Player.cpp
+﻿  Exit.cpp
+  Player.cpp
+  Room.cpp
+  World.cpp
+  ZorkHotel.cpp
+  Generando código...
+C:\Users\marcg\Desktop\Master\ZorkHotel\Exit.cpp(46): warning C4715: 'Exit::GetDestination': no todas las rutas de acceso de control devuelven un valor
   ZorkHotel.vcxproj -> C:\Users\marcg\Desktop\Master\ZorkHotel\x64\Debug\ZorkHotel.exe

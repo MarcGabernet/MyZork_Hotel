@@ -13,30 +13,32 @@ using namespace std;
 class Player : public Entity
 {
 public:
-	Player(const char* name, const char* description, Room* location);
+	Player(const char* name, const char* description, string description2, Room* location);
 	~Player();
 
 	void Buy(const vector<string>& args);
-	void Close();
-	void Close(const string door);
+	void Close();//------------------------
+	void Close(const string door);//------------------------
 	void Drink(const vector<string>& args);
 	void Drop(const vector<string>& args);
 	void Insert(const vector<string>& args);
-	void Inventory();
+	void Inventory();//------------------------
 	void Kick(const string obj);
-	void Look(const vector<string>& args);
+	void Look();//------------------------
 	void Move(const vector<string>& args);
-	void Open();
-	void Open(const string door);
-	void PickUp(const string obj);
+	void Open();//------------------------
+	void Open(const string door);//------------------------
+	void PickUp(const string obj);//------------------------
 	void Press(const vector<string>& args);
-	void Read(const vector<string>& args);
+	void Read(const string obj);
 	void Talk(const vector<string>& args);
+	void Throw(const string obj);
 	void Throw(const vector<string>& args);
-	void Travel(const char* direction);
+	void Travel(const char* direction);//------------------------
 
 public:
 	bool hasHeart = false;
+	string description2;
 };
 
 #endif

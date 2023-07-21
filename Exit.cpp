@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Exit.h"
-#include "Item.h"
+#include "Room.h"
 
 using namespace std;
 
@@ -13,6 +13,8 @@ Exit::Exit(Room* origin, Room* destination, const char* direction, const char* o
 	origin(origin), destination(destination), oppositeName(oppositeName), isOpen(isOpen), isLocked(isLocked), key(key)
 {
 	type = EXIT;
+	origin->entitiesContained.push_back(this);
+	destination->entitiesContained.push_back(this);
 };
 
 //------------------------------------------

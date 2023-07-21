@@ -28,7 +28,7 @@ public:
 	bool isOpen = true;
 	bool isLocked = false;
 
-	//necessary key to open the exit if locked
+	//necessary key to open the exit
 	Item* key;
 };
 
