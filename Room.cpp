@@ -17,7 +17,7 @@ Room::Room(const char* name, const char* description) :
 
 void Room::Look() 
 {
-	cout << "\n" << name << endl; 
+	cout << name << endl; 
 	cout << "\n" << description;
 	
 	for (list<Entity*>::const_iterator it = entitiesContained.begin(); it != entitiesContained.cend(); ++it)

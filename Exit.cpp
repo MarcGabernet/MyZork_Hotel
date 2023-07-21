@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Exit.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -7,9 +8,9 @@ using namespace std;
 Exit::~Exit() {};
 
 //-----------------------------------------------------------------------------------------------------------------------
-Exit::Exit(Room* origin, Room* destination, const char* direction, const char* oppositeName, bool isOpen, bool isLocked) :
+Exit::Exit(Room* origin, Room* destination, const char* direction, const char* oppositeName, bool isOpen, bool isLocked, Item* key) :
 	Entity(direction, "exit", NULL),
-	origin(origin), destination(destination), oppositeName(oppositeName), isOpen(isOpen), isLocked(isLocked)
+	origin(origin), destination(destination), oppositeName(oppositeName), isOpen(isOpen), isLocked(isLocked), key(key)
 {
 	type = EXIT;
 };

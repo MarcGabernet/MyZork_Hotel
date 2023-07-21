@@ -29,6 +29,8 @@ int main()
             getline(cin, line);
         istringstream iss(line);
 
+        cout << "\n";
+
         while (getline(iss, arg, ' '))
             args.push_back(arg);
 
@@ -36,7 +38,7 @@ int main()
             break;
         else if (world.ExecuteCommand(args) == false)
         {
-            cout << "\nSorry I don't understand this command\n";
+            cout << "Sorry I don't understand this command\n";
         }
 
         if (args.size() > 0)

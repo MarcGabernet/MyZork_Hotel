@@ -52,16 +52,16 @@ World::World()
 	const char* e = "east";
 
 	//Exits: Outside
-	Exit* exitSW = new Exit(southOfHotel, westOfHotel, w, s, true, false);
+	Exit* exitSW = new Exit(southOfHotel, westOfHotel, w, s, true, false, NULL);
 		southOfHotel->entitiesContained.push_back(exitSW);
 		westOfHotel->entitiesContained.push_back(exitSW);
-	Exit* exitNW = new Exit(westOfHotel, northOfHotel, n, w, true, false);
+	Exit* exitNW = new Exit(westOfHotel, northOfHotel, n, w, true, false, NULL);
 		northOfHotel->entitiesContained.push_back(exitNW);
 		westOfHotel->entitiesContained.push_back(exitNW);
-	Exit* exitNE = new Exit(northOfHotel, eastOfHotel, e, n, true, false);
+	Exit* exitNE = new Exit(northOfHotel, eastOfHotel, e, n, true, false, NULL);
 		northOfHotel->entitiesContained.push_back(exitNE);
 		eastOfHotel->entitiesContained.push_back(exitNE);
-	Exit* exitSE = new Exit(eastOfHotel, southOfHotel, s, e, true, false);
+	Exit* exitSE = new Exit(eastOfHotel, southOfHotel, s, e, true, false, NULL);
 		southOfHotel->entitiesContained.push_back(exitSE);
 		eastOfHotel->entitiesContained.push_back(exitSE);
 
@@ -71,15 +71,15 @@ World::World()
 	things.push_back(exitSE);
 	
 	//Exits: Outside to Inside
-	Exit* exitMainDoor = new Exit(southOfHotel, entranceHall, n, s, false, true);
+	Exit* exitMainDoor = new Exit(southOfHotel, entranceHall, n, s, false, true, NULL);
 	exitMainDoor->description = "door";
 		southOfHotel->entitiesContained.push_back(exitMainDoor);
 		entranceHall->entitiesContained.push_back(exitMainDoor);
-	Exit* exitWindow = new Exit(eastOfHotel, diningRoom, w, e, false, false);
+	Exit* exitWindow = new Exit(eastOfHotel, diningRoom, w, e, false, false, NULL);
 	exitWindow->description = "window";
 		eastOfHotel->entitiesContained.push_back(exitWindow);
 		diningRoom->entitiesContained.push_back(exitWindow);
-	Exit* exitBackDoor = new Exit(northOfHotel, kitchen, s, n, false, false);
+	Exit* exitBackDoor = new Exit(northOfHotel, kitchen, s, n, false, false, NULL);
 	exitBackDoor->description = "door";
 		northOfHotel->entitiesContained.push_back(exitBackDoor);
 		kitchen->entitiesContained.push_back(exitBackDoor);
@@ -89,26 +89,26 @@ World::World()
 	things.push_back(exitBackDoor);
 
 	//Exits: Inside
-	Exit* exitHallBar = new Exit(entranceHall, bar, w, e, true, false);
+	Exit* exitHallBar = new Exit(entranceHall, bar, w, e, true, false, NULL);
 		entranceHall->entitiesContained.push_back(exitHallBar);
 		bar->entitiesContained.push_back(exitHallBar);
-	Exit* exitBarBathroom = new Exit(bar, bathroom, s, n, true, false);
+	Exit* exitBarBathroom = new Exit(bar, bathroom, s, n, true, false, NULL);
 		bathroom->entitiesContained.push_back(exitBarBathroom);
 		bar->entitiesContained.push_back(exitBarBathroom);
-	Exit* exitBarKitchen = new Exit(bar, kitchen, n, s, true, false);
+	Exit* exitBarKitchen = new Exit(bar, kitchen, n, s, true, false, NULL);
 		bar->entitiesContained.push_back(exitBarKitchen);
 		kitchen->entitiesContained.push_back(exitBarKitchen);
-	Exit* exitKitchenDining = new Exit(kitchen, diningRoom, e, w, true, false);
+	Exit* exitKitchenDining = new Exit(kitchen, diningRoom, e, w, true, false, NULL);
 		diningRoom->entitiesContained.push_back(exitKitchenDining);
 		kitchen->entitiesContained.push_back(exitKitchenDining);
-	Exit* exitDiningHallway = new Exit(diningRoom, hallway, s, n, true, false);
+	Exit* exitDiningHallway = new Exit(diningRoom, hallway, s, n, true, false, NULL);
 		diningRoom->entitiesContained.push_back(exitDiningHallway);
 		hallway->entitiesContained.push_back(exitDiningHallway);
-	Exit* exitHallwayHall = new Exit(hallway, entranceHall, w, e, true, false);
+	Exit* exitHallwayHall = new Exit(hallway, entranceHall, w, e, true, false, NULL);
 		entranceHall->entitiesContained.push_back(exitHallwayHall);
 		hallway->entitiesContained.push_back(exitHallwayHall);
 
-	Exit* exitHallwayElevator = new Exit(hallway, elevator, s, n, false, true);
+	Exit* exitHallwayElevator = new Exit(hallway, elevator, s, n, false, true, NULL/*change this*/);
 	exitHallwayElevator->description = "elevator";
 		hallway->entitiesContained.push_back(exitHallwayElevator);
 
@@ -153,9 +153,17 @@ bool World::ExecuteCommand(const vector<string>& args)
 			{
 				player->location->Look();
 			}
+			else if (args[0] == "close" || args[0] == "Close")
+			{
+				player->Close();
+			}
 			else if (args[0] == "open" || args[0] == "Open")
 			{
-				player->Open(" ");
+				player->Open();
+			}
+			else if (args[0] == "inventory" || args[0] == "Inventory")
+			{
+				player->Inventory();
 			}
 			else 
 			{
@@ -164,7 +172,11 @@ bool World::ExecuteCommand(const vector<string>& args)
 			break;
 
 		case 2:
-			if (args[0] == "open" || args[0] == "Open")
+			if (args[0] == "close" || args[0] == "Close")
+			{
+				player->Close(args[1]);
+			}
+			else if (args[0] == "open" || args[0] == "Open")
 			{
 				player->Open(args[1]);
 			}
@@ -174,7 +186,10 @@ bool World::ExecuteCommand(const vector<string>& args)
 			}
 			break;
 		case 3: 
-
+			if ((args[0] == "pick" || args[0] == "Pick") && args[1] == "up")
+			{
+				player->PickUp(args[2]);
+			}
 			break;
 		default:
 			executed = false;
