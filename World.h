@@ -6,6 +6,10 @@
 #include "Entity.h"
 #include "Player.h"
 
+#define DEFAULT_COLOR "\033[0m"
+#define RED_TEXT "\033[31m"
+#define YELLOW_TEXT "\033[33m"
+
 using namespace std;
 
 class World

@@ -34,7 +34,7 @@ World::World()
 	Room* bathroom = new Room("Bathroom", "The worst smelling place you have ever experienced. Get out!\nIt feels like the toilets are only for decoration, since the whole floor is sticky not exactly dry.\n");
 	Room* entranceHall = new Room("Entrance Hall", "The maginficent entrace of the Hotel: Its tall ceiling combined with the ornaments on the wall give it a sense of importance.\nIt's now an old room filled with spiderwebs but feels like it was once a place where important people met.\n");
 	Room* diningRoom = new Room("Dining Room", "The dining room of the Hotel: A place that hides one of the fanciest eating experiences ever under layers and layers of dust.\nEven though the large talbe is set very meticulously, the room feels abandoned.\n");
-	Room* hallway = new Room("Hallway", "A Hallway that connects the entrace hall with the dining room and the elevators that go to the rooms.\nIt's a very dark place with a single broken light bulb that ocasonally sheds a snippet of light.\n");
+	Room* hallway = new Room("Hallway", "A Hallway that connects the entrace hall with the dining room and the elevators that go to the rooms.\nIt's a very dark place with a single broken light bulb that ocasonally sheds a snippet of light into the room.\n");
 	Room* elevator = new Room("Elevator", "A claustrophobic metallic box that seems too old to be working.\nIt closed shut behind you. There is no way to get out.\nThere is only one button, there is no way to choose what floor you want to go to.\n");
 
 	things.push_back(kitchen);
@@ -52,7 +52,7 @@ World::World()
 	const char* gameInfo = "Welcome to the Hotel!\n\nYou don't know why you are here, nobody does when they arrive.\nBelieve it or not this hotel will be where you live from now on.\nSo don't be afraid to enter and go to your room.\nTo do that take the elevator: It will guide you to your \"resting place\".";
 	
 	Item* sign = new Item("sign", "A sign with text on it.", gameInfo, southOfHotel, false, false, false);
-	Item* garbage = new Item("garbage", "A garbage container. Where the Hotel throws away their waste.", nullptr, westOfHotel, false, false, true);
+	Item* garbage = new Item("container", "A garbage container. Where the Hotel throws away their waste.", nullptr, westOfHotel, false, false, true);
 	Item* heart = new Item("heart", "A human heart... How is it still pumping?", nullptr, garbage, false, true, true);
 	Item* rock = new Item("rock", "Just a rock. Pretty useless, throw it away.", nullptr, northOfHotel, false, true, true);
 
@@ -62,13 +62,17 @@ World::World()
 	things.push_back(rock);
 
 	//Items: Inside
+	
+	const char* drinkText = "ABSINTHE\nCalavera Verde\nAlcohol: 89.9%\nWARNING: May cause the loss of control over one self";
+	const char* coffeeText = "Don't\ntalk to\nme before\nmy moring\nCOFFEE";
+	const char* creditCardText = "Unity National Bank\n-------------------\nLogan Roy\n4716 8755 1191 9591\nEXP DATE: 11/2030";
 
 	Item* chandelier = new Item("chandelier", "A big chandelier hanging from the ceiling. It's made of lots of glass parts and very fancy.", nullptr, entranceHall, false, false, false);
-	Item* key = new Item("key", "A key that looks like it open a door.", "Elevator", entranceHall, false, true, false);
-	Item* drink = new Item("drink", "A bottle of some kind of destilled alcohol, it has a sticker in the back with some text.\nIt smells like sanitary alcohol and looks like an evil potion.", "ABSINTHE\nCalavera Verde\nAlcohol: 89.9%\nWARNING: May cause the loss of control over one self", bar/*barMAN*/, true, true, true);
-	Item* coffee = new Item("coffee", "A cup of hot coffee. Steam is coming out of the cup.\nThere is text written in the cup.", "Don't\ntalk to\nme before\nmy moring\nCOFFEE", kitchen, true, true, true);
+	Item* key = new Item("key", "A key that looks like it open a door.", "Elevator", chandelier, false, true, false);
+	Item* drink = new Item("drink", "A bottle of some kind of destilled alcohol, it has a sticker in the back with some text.\nIt smells like sanitary alcohol and looks like an evil potion.", drinkText, bar/*barMAN*/, true, true, true);
+	Item* coffee = new Item("coffee", "A cup of hot coffee. Steam is coming out of the cup.\nThere is text written in the cup.", coffeeText, kitchen, true, true, true);
 	Item* table = new Item("table", "A very well set table. The tablecloth reaches the floor.", nullptr, diningRoom, false, false, true);
-	Item* creditCard = new Item("card", "A credit card. It's black with platinum highlights.\nIt has the name of someone you don't know.", "Unity National Bank\n-----------------\nLogan Roy", table, false, true, true);
+	Item* creditCard = new Item("card", "A credit card. It's black with platinum highlights.\nIt has the name of someone you don't know.", creditCardText, table, false, true, true);
 	Item* button = new Item("button", "An ominous button. You can't get out of the elevator so you might as well press it.", "JUDGEMENT", elevator, false, false, false);
 
 	things.push_back(chandelier);
@@ -130,7 +134,7 @@ World::World()
 	things.push_back(exitHallwayHall);
 	things.push_back(exitHallwayElevator);
 
-	player = new Player("me", "you... who are you? ... who WERE you?", "You feel an emptiness in your chest. Something is off.", southOfHotel);
+	player = new Player("me", "You... who are you? ... who WERE you?", "You feel an emptiness in your chest. Something is off.", southOfHotel);
 
 	things.push_back(player);
 }
@@ -161,19 +165,11 @@ bool World::ExecuteCommand(const vector<string>& args)
 			{
 				player->location->Look();
 			}
-			else if (args[0] == "close" || args[0] == "Close")
-			{
-				player->Close();
-			}
-			else if (args[0] == "open" || args[0] == "Open")
-			{
-				player->Open();
-			}
 			else if (args[0] == "inventory" || args[0] == "Inventory")
 			{
 				player->Inventory();
 			}
-			else 
+			else if (player->WhatTo(args[0]) == false)
 			{
 				executed = false;
 			}
@@ -208,6 +204,10 @@ bool World::ExecuteCommand(const vector<string>& args)
 			{
 				player->Read(args[1]);
 			}
+			else if (args[0] == "move" || args[0] == "Move")
+			{
+				player->Move(args[1]);
+			}
 			else
 			{
 				executed = false;
@@ -228,6 +228,12 @@ bool World::ExecuteCommand(const vector<string>& args)
 				{
 					player->Look(args[2]);
 				}
+			}
+			break;
+		case 4:
+			if ((args[0] == "put" || args[0] == "Put") && args[2] == "in") 
+			{
+				player->Put(args[1], args[3]);
 			}
 			break;
 		default:
