@@ -25,7 +25,6 @@ public:
 	virtual void Look();
 
 	void ChangeLocation(Entity* newLocation);
-	//void ChangeLocationOfAll(list<Entity*> objects, Entity* location);
 
 public:
 	entityType type;

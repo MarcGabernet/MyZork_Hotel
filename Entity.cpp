@@ -42,13 +42,3 @@ void Entity::ChangeLocation(Entity* newLocation)
 
 	newLocation->entitiesContained.push_back(this);
 }
-/*
-void ChangeLocationOfAll(list<Entity*> objects, Entity* location) 
-{
-	list<Entity*>::const_iterator items = objects.begin();
-	while (objects.size() != 0)
-	{
-		cout << "- A " << (*items)->name << "\n";
-		(*items)->ChangeLocation(location);
-	}
-}*/

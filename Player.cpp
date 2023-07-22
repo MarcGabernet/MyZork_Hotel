@@ -229,7 +229,6 @@ void Player::Move(const string obj)
 						cout << "- A " << (*items)->name << "\n";
 						(*items)->ChangeLocation(location);
 					}
-					//ChangeLocationOfAll(item->entitiesContained, location);
 				}
 			}
 			else 
@@ -520,7 +519,6 @@ void Player::ThrowAt(const string obj, const string objective)
 							cout << "- A " << (*items)->name << "\n";
 							(*items)->ChangeLocation(location);
 						}
-						//ChangeLocationOfAll(item->entitiesContained, location);
 					}
 					else 
 					{
