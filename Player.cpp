@@ -6,7 +6,7 @@ using namespace std;
 //-------------------
 Player::~Player() {};
 
-//-----------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
 Player::Player(const char* name, const char* description, string description2, Room* location) :
 	Entity(name, description, (Entity*) location), 
 	description2(description2)
@@ -42,6 +42,28 @@ void Player::Close(const string door)
 	if (!validName)
 	{
 		cout << "This can't be closed\n";
+	}
+}
+
+//---------------------------------
+void Player::Drop(const string obj) 
+{
+	bool dropped = false;
+
+	for (list<Entity*>::const_iterator it = entitiesContained.begin(); it != entitiesContained.cend(); ++it)
+	{
+		if ((*it)->name == obj) 
+		{
+			Item* item = (Item*)(*it);
+			item->ChangeLocation((Entity*)location);
+			cout << "The " << item->name << " is now in the " << location->name << "\n";
+			dropped = true;
+			break;
+		}
+	}
+	if (!dropped) 
+	{
+		cout << "There is nothig with that name in your inventory to be dropped!\n";
 	}
 }
 

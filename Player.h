@@ -20,7 +20,7 @@ public:
 	void Close();//------------------------
 	void Close(const string door);//------------------------
 	void Drink(const vector<string>& args);
-	void Drop(const vector<string>& args);
+	void Drop(const string obj);//------------------------
 	void Insert(const vector<string>& args);
 	void Inventory();//------------------------
 	void Kick(const string obj);

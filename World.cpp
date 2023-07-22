@@ -69,7 +69,7 @@ World::World()
 	Item* coffee = new Item("coffee", "A cup of hot coffee. Steam is coming out of the cup.\nThere is text written in the cup.", "Don't\ntalk to\nme before\nmy moring\nCOFFEE", kitchen, true, true, true);
 	Item* table = new Item("table", "A very well set table. The tablecloth reaches the floor.", nullptr, diningRoom, false, false, true);
 	Item* creditCard = new Item("card", "A credit card. It's black with platinum highlights.\nIt has the name of someone you don't know.", "Unity National Bank\n-----------------\nLogan Roy", table, false, true, true);
-	Item* button = new Item("button", "An ominous button. You can't get out of the elevator so you might as well press it.", "JUDGEMENT", elevator, false, true, true);
+	Item* button = new Item("button", "An ominous button. You can't get out of the elevator so you might as well press it.", "JUDGEMENT", elevator, false, false, false);
 
 	things.push_back(chandelier);
 	things.push_back(key);
@@ -130,7 +130,7 @@ World::World()
 	things.push_back(exitHallwayHall);
 	things.push_back(exitHallwayElevator);
 
-	player = new Player("me", "you... who are you? ... who WERE you?", "You feel an emptiness in your chest. Something is off.", southOfHotel);
+	player = new Player("me", "you... who are you? ... who WERE you?", "You feel an emptiness in your chest. Something is off.", kitchen);
 
 	things.push_back(player);
 }
@@ -191,6 +191,10 @@ bool World::ExecuteCommand(const vector<string>& args)
 			else if (args[0] == "kick" || args[0] == "Kick")
 			{
 				player->Kick(args[1]);
+			}
+			else if (args[0] == "drop" || args[0] == "Drop")
+			{
+				player->Drop(args[1]);
 			}
 			else if (args[0] == "look" || args[0] == "Look")
 			{
