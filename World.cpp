@@ -64,7 +64,7 @@ World::World()
 	//Items: Inside
 
 	Item* chandelier = new Item("chandelier", "A big chandelier hanging from the ceiling. It's made of lots of glass parts and very fancy.", nullptr, entranceHall, false, false, false);
-	Item* key = new Item("key", "A key that looks like it open a door.", "Elevator", chandelier, false, true, false);
+	Item* key = new Item("key", "A key that looks like it open a door.", "Elevator", entranceHall, false, true, false);
 	Item* drink = new Item("drink", "A bottle of some kind of destilled alcohol, it has a sticker in the back with some text.\nIt smells like sanitary alcohol and looks like an evil potion.", "ABSINTHE\nCalavera Verde\nAlcohol: 89.9%\nWARNING: May cause the loss of control over one self", bar/*barMAN*/, true, true, true);
 	Item* coffee = new Item("coffee", "A cup of hot coffee. Steam is coming out of the cup.\nThere is text written in the cup.", "Don't\ntalk to\nme before\nmy moring\nCOFFEE", kitchen, true, true, true);
 	Item* table = new Item("table", "A very well set table. The tablecloth reaches the floor.", nullptr, diningRoom, false, false, true);
@@ -130,7 +130,7 @@ World::World()
 	things.push_back(exitHallwayHall);
 	things.push_back(exitHallwayElevator);
 
-	player = new Player("me", "you... who are you? ... who WERE you?", "You feel an emptiness in your chest. Something is off.", kitchen);
+	player = new Player("me", "you... who are you? ... who WERE you?", "You feel an emptiness in your chest. Something is off.", southOfHotel);
 
 	things.push_back(player);
 }
@@ -194,7 +194,11 @@ bool World::ExecuteCommand(const vector<string>& args)
 			}
 			else if (args[0] == "drop" || args[0] == "Drop")
 			{
-				player->Drop(args[1]);
+				player->Drop(args[1],false);
+			}
+			else if (args[0] == "throw" || args[0] == "Throw")
+			{
+				player->Throw(args[1]);
 			}
 			else if (args[0] == "look" || args[0] == "Look")
 			{

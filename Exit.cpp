@@ -9,7 +9,7 @@ Exit::~Exit() {};
 
 //-----------------------------------------------------------------------------------------------------------------------
 Exit::Exit(Room* origin, Room* destination, const char* direction, const char* oppositeName, bool isOpen, bool isLocked, Item* key) :
-	Entity(direction, "exit", NULL),
+	Entity(direction, "exit", nullptr),
 	origin(origin), destination(destination), oppositeName(oppositeName), isOpen(isOpen), isLocked(isLocked), key(key)
 {
 	type = EXIT;

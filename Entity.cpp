@@ -4,10 +4,17 @@
 using namespace std;
 
 //-------------------
-Entity::~Entity() {};
+Entity::~Entity() 
+{
+	if (location != nullptr) 
+	{
+		location->entitiesContained.remove(this);
+	}
+
+};
 
 //----------------------------------------------------------------------------------
-Entity::Entity(const char* name, const char* description, Entity* location = NULL) :
+Entity::Entity(const char* name, const char* description, Entity* location = nullptr) :
 name(name), description(description), location(location)
 {
 	type = ENTITY;

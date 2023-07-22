@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "Player.h"
 
 using namespace std;
@@ -14,7 +15,17 @@ Player::Player(const char* name, const char* description, string description2, R
 	type = PLAYER;
 };
 
-//----------------------------------
+//-------------------------------
+void Player::NothingTo(const string verb)
+{
+	string nothing = "Nothing to ";
+	string nameInRoom = " with that name in this room";
+	string ret = nothing + verb + nameInRoom;
+
+	cout << ret << "\n";
+}
+
+//------------------
 void Player::Close()
 {
 	cout << "What do you want to close?\n";
@@ -41,15 +52,13 @@ void Player::Close(const string door)
 	}
 	if (!validName)
 	{
-		cout << "This can't be closed\n";
+		NothingTo("close");
 	}
 }
 
 //---------------------------------
-void Player::Drop(const string obj) 
+void Player::Drop(const string obj, bool dropped)
 {
-	bool dropped = false;
-
 	for (list<Entity*>::const_iterator it = entitiesContained.begin(); it != entitiesContained.cend(); ++it)
 	{
 		if ((*it)->name == obj) 
@@ -132,7 +141,7 @@ void Player::Kick(const string obj)
 	}
 	if (!kicked) 
 	{
-		cout << "You tried to kick something but failed!";
+		NothingTo("kick");
 	}
 }
 
@@ -159,7 +168,7 @@ void Player::Look(const string obj)
 	}
 	if (!looked) 
 	{
-		cout << "Nothing to look at with that name\n";
+		NothingTo("look at");
 	}
 }
 
@@ -197,7 +206,7 @@ void Player::Open(const string door)
 	}
 	if (!validName) 
 	{
-		cout << "This can't be opened\n";
+		NothingTo("open");
 	}
 }
 
@@ -230,7 +239,7 @@ void Player::PickUp(const string obj)
 	}
 	if (!pickedUp) 
 	{
-		cout << "Nothing to pick up with this name.\n";
+		NothingTo("pick up");
 	}
 }
 
@@ -262,7 +271,54 @@ void Player::Read(const string obj)
 	}
 	if (!red)
 	{
-		cout << "Nothing to read with this name\n";
+		NothingTo("read");
+	}
+}
+
+
+bool Player::ThrowingFrom(const string obj, list<Entity*> listOfEntities)
+{
+	bool thrown = false;
+
+	for (list<Entity*>::const_iterator it = listOfEntities.begin(); it != listOfEntities.cend(); ++it)
+	{
+		if ((*it)->name == obj)
+		{
+			Item* item = (Item*)(*it);
+			cout << "You threw the " << item->name << " across the room!\n";
+			thrown = true;
+			if (!item->drinkable)
+			{
+				cout << "Nothing nappened.\n";
+			}
+			else
+			{
+				cout << "The " << item->name << " broke!\n";
+				item->~Item();
+			}
+			break;
+		}
+	}
+	return thrown;
+}
+
+//----------------------------------
+void Player::Throw(const string obj) 
+{
+	bool thrown = false;
+
+	thrown = ThrowingFrom(obj,location->entitiesContained);
+	if (!thrown) 
+	{
+		thrown = ThrowingFrom(obj, entitiesContained);
+		if (thrown)
+		{
+			Drop(obj,true);
+		}
+		else 
+		{
+			NothingTo("throw");
+		}
 	}
 }
 
