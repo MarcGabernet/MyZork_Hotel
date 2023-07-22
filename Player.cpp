@@ -46,13 +46,11 @@ bool Player::WhatTo(const string verb)
 	for (list<string>::const_iterator it = validVerbs.begin(); it != validVerbs.cend(); ++it)
 	{
 		if ((*it) == verb) {
-			what = "What do you want to " + verb + "?\n";
+			cout << "What do you want to " + verb + "?\n";
 			valid = true;
 			break;
 		}
 	}
-
-	cout << what;
 	return valid;
 }
 
@@ -82,7 +80,7 @@ void Player::Close(const string door)
 }
 
 //-----------------------------------------------
-void Player::Drop(const string obj, bool dropped)
+void Player::Drop(const string obj, bool dropped, bool throwingAtSometing)
 {
 	for (list<Entity*>::const_iterator it = entitiesContained.begin(); it != entitiesContained.cend(); ++it)
 	{
@@ -90,7 +88,14 @@ void Player::Drop(const string obj, bool dropped)
 		{
 			Item* item = (Item*)(*it);
 			item->ChangeLocation((Entity*)location);
-			cout << "The " << item->name << " is now in the " << location->name << "\n";
+			if (!throwingAtSometing && !dropped)
+			{
+				cout << ".\n";
+			}
+			if (!dropped)
+			{
+				cout << "The " << obj << " is now in the " << location->name << ".\n";
+			}
 			dropped = true;
 			break;
 		}
@@ -224,6 +229,7 @@ void Player::Move(const string obj)
 						cout << "- A " << (*items)->name << "\n";
 						(*items)->ChangeLocation(location);
 					}
+					//ChangeLocationOfAll(item->entitiesContained, location);
 				}
 			}
 			else 
@@ -305,7 +311,7 @@ void Player::PickUp(const string obj)
 	}
 }
 
-//---------------------------------
+//--------------------------------------------------------
 void Player::Put(const string obj, const string container)
 {
 	bool objectPutInPlace = false;
@@ -390,7 +396,7 @@ void Player::Put(const string obj, const string container)
 	}
 	if (!objectPutInPlace) 
 	{
-		cout << "No object was moved. Either the object or the container doesn't exist.\n";
+		cout << "No object was moved. Either the object or the container don't exist or aren't in this room.\n";
 	}
 }
 
@@ -426,8 +432,8 @@ void Player::Read(const string obj)
 	}
 }
 
-//-----------------------------------------------------------------------
-bool Player::ThrowingFrom(const string obj, list<Entity*> listOfEntities)
+//------------------------------------------------------------------------------------------------
+bool Player::ThrowingFrom(const string obj, list<Entity*> listOfEntities, bool throwingAtSometing)
 {
 	bool thrown = false;
 
@@ -436,39 +442,102 @@ bool Player::ThrowingFrom(const string obj, list<Entity*> listOfEntities)
 		if ((*it)->name == obj)
 		{
 			Item* item = (Item*)(*it);
-			cout << "You threw the " << item->name << " across the room!\n";
-			thrown = true;
-			if (!item->drinkable)
+			cout << "You threw the " << item->name;
+			if (!throwingAtSometing) 
 			{
-				cout << "Nothing nappened.\n";
+				cout << " across the room!\n";
 			}
-			else
+			thrown = true;
+			if (!item->drinkable && !throwingAtSometing)
 			{
-				cout << "The " << item->name << " broke!\n";
+				cout << "Nothing happened.\n";
+			}
+			else if (item->drinkable)
+			{
+				cout << ".\nThe " << item->name << " broke!\n";
 				item->~Item();
 			}
+
 			break;
 		}
 	}
 	return thrown;
 }
 
-//----------------------------------
-void Player::Throw(const string obj) 
+//-----------------------------------------------------------
+bool Player::Throw(const string obj, bool throwingAtSometing)
 {
 	bool thrown = false;
 
-	thrown = ThrowingFrom(obj,location->entitiesContained);
+	thrown = ThrowingFrom(obj,location->entitiesContained, throwingAtSometing);
 	if (!thrown) 
 	{
-		thrown = ThrowingFrom(obj, entitiesContained);
+		thrown = ThrowingFrom(obj, entitiesContained, throwingAtSometing);
 		if (thrown)
 		{
-			Drop(obj,true);
+			Drop(obj, true, throwingAtSometing);
 		}
 		else 
 		{
 			NothingTo("throw");
+		}
+	}
+	return thrown;
+}
+
+//------------------------------------------------------------
+void Player::ThrowAt(const string obj, const string objective)
+{
+	bool objectiveHit = false;
+
+	if (Throw(obj, true)) 
+	{
+		for (list<Entity*>::const_iterator it = location->entitiesContained.begin(); it != location->entitiesContained.cend(); ++it)
+		{
+			if ((*it)->name == objective || (objective != "exit" && (*it)->description == objective && (*it)->type == EXIT))
+			{
+				if (obj != "coffee" && obj != "drink")
+				{
+					cout << " at the " << objective << "!\n";
+				}
+
+				objectiveHit = true;
+				if ((*it)->type == NPC)
+				{
+
+					cout << "The " << obj << " passed through the " << objective << " like he wasn't there. Is he a ghost?\n";
+					break;
+				}
+				if ((*it)->type == ITEM)
+				{
+					Item* item = (Item*)(*it);
+					if (!item->movable && !item->pickable && item->entitiesContained.size() != 0) 
+					{
+						cout << "From the " << objective << " something fell and now it's in the room:\n";
+						list<Entity*>::const_iterator items = item->entitiesContained.begin();
+						while (item->entitiesContained.size() != 0)
+						{
+							cout << "- A " << (*items)->name << "\n";
+							(*items)->ChangeLocation(location);
+						}
+						//ChangeLocationOfAll(item->entitiesContained, location);
+					}
+					else 
+					{
+						cout << "Nothing happened.\n";
+					}
+					break;
+				}
+				if ((*it)->type == EXIT)
+				{
+					cout << "You hit the " << objective << " and now the " << obj << " is on the floor.\n";
+					break;
+				}
+			}
+		}
+		if (!objectiveHit) 
+		{
+			cout << ".\nThere isn't anything in this room with that name so it didn't hit anyting.\n";
 		}
 	}
 }

@@ -54,7 +54,7 @@ World::World()
 	Item* sign = new Item("sign", "A sign with text on it.", gameInfo, southOfHotel, false, false, false);
 	Item* garbage = new Item("container", "A garbage container. Where the Hotel throws away their waste.", nullptr, westOfHotel, false, false, true);
 	Item* heart = new Item("heart", "A human heart... How is it still pumping?", nullptr, garbage, false, true, true);
-	Item* rock = new Item("rock", "Just a rock. Pretty useless, throw it away.", nullptr, northOfHotel, false, true, true);
+	Item* rock = new Item("rock", "Just a rock. Pretty useless, THROW it away.", nullptr, northOfHotel, false, true, true);
 
 	things.push_back(sign);
 	things.push_back(garbage);
@@ -63,8 +63,8 @@ World::World()
 
 	//Items: Inside
 	
-	const char* drinkText = "ABSINTHE\nCalavera Verde\nAlcohol: 89.9%\nWARNING: May cause the loss of control over one self";
-	const char* coffeeText = "Don't\ntalk to\nme before\nmy moring\nCOFFEE";
+	const char* drinkText = "ABSINTHE\n\033[32mCalavera Verde\n\033[0mAlcohol: 89.9%\nWARNING: May cause the loss of control over one self";
+	const char* coffeeText = "\033[34mDon't\n\033[36mtalk to\n\033[32mme before\n\033[33mmy moring\n\033[31mCOFFEE\033[0m";
 	const char* creditCardText = "Unity National Bank\n-------------------\nLogan Roy\n4716 8755 1191 9591\nEXP DATE: 11/2030";
 
 	Item* chandelier = new Item("chandelier", "A big chandelier hanging from the ceiling. It's made of lots of glass parts and very fancy.", nullptr, entranceHall, false, false, false);
@@ -190,11 +190,11 @@ bool World::ExecuteCommand(const vector<string>& args)
 			}
 			else if (args[0] == "drop" || args[0] == "Drop")
 			{
-				player->Drop(args[1],false);
+				player->Drop(args[1],false, true);
 			}
 			else if (args[0] == "throw" || args[0] == "Throw")
 			{
-				player->Throw(args[1]);
+				player->Throw(args[1], false);
 			}
 			else if (args[0] == "look" || args[0] == "Look")
 			{
@@ -229,11 +229,23 @@ bool World::ExecuteCommand(const vector<string>& args)
 					player->Look(args[2]);
 				}
 			}
+			else
+			{
+				executed = false;
+			}
 			break;
 		case 4:
 			if ((args[0] == "put" || args[0] == "Put") && args[2] == "in") 
 			{
 				player->Put(args[1], args[3]);
+			}
+			else if ((args[0] == "Throw" || args[0] == "throw") && args[2] == "at")
+			{
+				player->ThrowAt(args[1], args[3]);
+			}
+			else
+			{
+				executed = false;
 			}
 			break;
 		default:

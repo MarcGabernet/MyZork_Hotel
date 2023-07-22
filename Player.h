@@ -22,7 +22,7 @@ public:
 	void Buy(const vector<string>& args);
 	void Close(const string door);
 	void Drink(const vector<string>& args);
-	void Drop(const string obj, bool dropped);
+	void Drop(const string obj, bool dropped, bool throwingAtSometing);
 	void Insert(const vector<string>& args);
 	void Inventory();
 	void Kick(const string obj);
@@ -35,8 +35,9 @@ public:
 	void Put(const string obj, const string container);
 	void Read(const string obj);
 	void TalkTo(const vector<string>& args);
-	bool ThrowingFrom(const string obj, list<Entity*> list);
-	void Throw(const string obj);
+	bool ThrowingFrom(const string obj, list<Entity*> list, bool throwingAtSometing);
+	bool Throw(const string obj, bool throwingAtSometing);
+	void ThrowAt(const string obj, const string objective);
 	void Travel(const char* direction);
 
 public:
