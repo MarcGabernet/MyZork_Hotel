@@ -17,7 +17,8 @@ class World
 public:
 	World();
 	~World();
-
+	
+	bool Execute(const vector<string>& args);
 	bool ExecuteCommand(const vector<string>& args);
 
 public:

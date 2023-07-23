@@ -49,7 +49,7 @@ int main()
         {
             break;
         }
-        else if (world.ExecuteCommand(args) == false)
+        else if (world.Execute(args) == false)
         {
             cout << "Sorry I don't understand this command\n";
         }

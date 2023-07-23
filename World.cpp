@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
+#include <random>
 
 #include "World.h"
 #include "Exit.h"
 #include "Room.h"
+#include "Npc.h"
 
 using namespace std;
 
@@ -46,7 +48,7 @@ World::World()
 	things.push_back(elevator);
 	
 
-	//Items and NPC's
+	//Items
 
 	//Items: Outside
 	const char* gameInfo = "Welcome to the Hotel!\n\nYou don't know why you are here, nobody does when they arrive.\nBelieve it or not this hotel will be where you live from now on.\nSo don't be afraid to enter and go to your room.\nTo do that take the elevator: It will guide you to your \"resting place\".";
@@ -70,7 +72,9 @@ World::World()
 	Item* chandelier = new Item("chandelier", "A big chandelier hanging from the ceiling. It's made of lots of glass parts and very fancy.", nullptr, entranceHall, false, false, false);
 	Item* key = new Item("key", "A key that looks like it open a door.", "Elevator", chandelier, false, true, false);
 	Item* drink = new Item("drink", "A bottle of some kind of destilled alcohol, it has a sticker in the back with some text.\nIt smells like sanitary alcohol and looks like an evil potion.", drinkText, bar/*barMAN*/, true, true, true);
+	drink->drinkingEffect = -1;
 	Item* coffee = new Item("coffee", "A cup of hot coffee. Steam is coming out of the cup.\nThere is text written in the cup.", coffeeText, kitchen, true, true, true);
+	coffee->drinkingEffect = 1;
 	Item* table = new Item("table", "A very well set table. The tablecloth reaches the floor.", nullptr, diningRoom, false, false, true);
 	Item* creditCard = new Item("card", "A credit card. It's black with platinum highlights.\nIt has the name of someone you don't know.", creditCardText, table, false, true, true);
 	Item* button = new Item("button", "An ominous button. You can't get out of the elevator so you might as well press it.", "JUDGEMENT", elevator, false, false, false);
@@ -82,6 +86,10 @@ World::World()
 	things.push_back(table);
 	things.push_back(creditCard);
 	things.push_back(button);
+
+	//NPC's
+
+
 
 	//Exits
 	const char* n = "north";
@@ -139,6 +147,40 @@ World::World()
 	things.push_back(player);
 }
 
+bool World::Execute(const vector<string>& args) {
+
+	bool executed = true;
+
+	//Ranom number from 1 to 10
+	random_device rd;
+	mt19937 generator(rd()); // Mersenne Twister 19937 engine
+	uniform_int_distribution<int> distribution(1, 10);
+
+	int randomNumber = distribution(generator); 
+
+	if (randomNumber > player->control) 
+	{
+		if (player->control >= 7) 
+		{
+			cout << "You are little drunk.\n";
+		}
+		else if (player->control >= 4)
+		{
+			cout << "You are very drunk, you feel like vomiting.\n";
+		}
+		else if (player->control >= 1)
+		{
+			cout << "You are extremly drunk, everything is spinning around you!\n";
+		}
+		cout << "You slipped and fell to the ground so you didn't do what you wanted to!\n";
+	}
+	else 
+	{
+		executed = ExecuteCommand(args);
+	}
+	return executed;
+}
+
 bool World::ExecuteCommand(const vector<string>& args) 
 {
 	bool executed = true;
@@ -169,6 +211,10 @@ bool World::ExecuteCommand(const vector<string>& args)
 			{
 				player->Inventory();
 			}
+			else if (args[0] == "vomit" || args[0] == "Vomit")
+			{
+				player->Vomit();
+			}
 			else if (player->WhatTo(args[0]) == false)
 			{
 				executed = false;
@@ -188,11 +234,15 @@ bool World::ExecuteCommand(const vector<string>& args)
 			{
 				player->Kick(args[1]);
 			}
+			else if (args[0] == "drink" || args[0] == "Drink")
+			{
+				player->Drink(args[1]);
+			}
 			else if (args[0] == "drop" || args[0] == "Drop")
 			{
 				player->Drop(args[1],false, true);
 			}
-			else if (args[0] == "throw" || args[0] == "Throw")
+			else if ((args[0] == "throw" || args[0] == "Throw") && args[1] != "up")
 			{
 				player->Throw(args[1], false);
 			}
@@ -207,6 +257,10 @@ bool World::ExecuteCommand(const vector<string>& args)
 			else if (args[0] == "move" || args[0] == "Move")
 			{
 				player->Move(args[1]);
+			}
+			else if ((args[0] == "throw" || args[0] == "Throw") && args[1] == "up")
+			{
+				player->Vomit();
 			}
 			else
 			{

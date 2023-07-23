@@ -19,6 +19,8 @@ public:
 	bool pickable;
 	bool movable;
 	const char* readableInfo;
+
+	int drinkingEffect = 0;
 };
 
 #endif

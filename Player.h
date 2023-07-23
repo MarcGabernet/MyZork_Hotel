@@ -7,6 +7,7 @@
 #include "Entity.h"
 #include "Room.h"
 #include "Item.h"
+#include "Npc.h"
 
 using namespace std;
 
@@ -18,10 +19,11 @@ public:
 
 	void NothingTo(const string verb);
 	bool WhatTo(const string verb);
+	Entity* FindInList(const string name, list<Entity*> entities, entityType objectType);
 
-	void Buy(const vector<string>& args);
+	void Buy(const string drink);
 	void Close(const string door);
-	void Drink(const vector<string>& args);
+	void Drink(const string drink);
 	void Drop(const string obj, bool dropped, bool throwingAtSometing);
 	void Insert(const vector<string>& args);
 	void Inventory();
@@ -39,6 +41,7 @@ public:
 	bool Throw(const string obj, bool throwingAtSometing);
 	void ThrowAt(const string obj, const string objective);
 	void Travel(const char* direction);
+	void Vomit();
 
 public:
 	bool hasHeart = false;
