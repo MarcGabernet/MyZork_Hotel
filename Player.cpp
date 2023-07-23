@@ -457,6 +457,7 @@ void Player::PickUp(const string obj)
 	}
 }
 
+//-----------------------------------
 void Player::Press(const string obj)
 {
 	Item* item = (Item*)FindInList(obj, location->entitiesContained, ITEM);
@@ -486,6 +487,7 @@ void Player::Press(const string obj)
 				cout << outcome[i];
 				Timer(0.05f);
 			}
+			Timer(5.0f);
 			exit(666);
 		}
 	}
