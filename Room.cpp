@@ -16,6 +16,7 @@ Room::Room(const char* name, const char* description) :
 	type = ROOM;
 };
 
+//Description of the room and its entitites contained
 void Room::Look() 
 {
 	Entity::Look();

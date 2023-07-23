@@ -24,6 +24,7 @@ name(name), description(description), location(location)
 	}
 };
 
+//name and description of the entiry
 //-----------------------------
 void Entity::Look()
 {
@@ -32,6 +33,7 @@ void Entity::Look()
 
 }
 
+//changes the location of the entity ans also the list of entities containes of the previous and new location
 //----------------------------------------------
 void Entity::ChangeLocation(Entity* newLocation) 
 {

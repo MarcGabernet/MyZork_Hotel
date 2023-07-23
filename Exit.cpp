@@ -17,6 +17,7 @@ Exit::Exit(Room* origin, Room* destination, const char* direction, const char* o
 	destination->entitiesContained.push_back(this);
 };
 
+//Given a room next to you, gives the direction to take to get there
 //------------------------------------------
 string Exit::GetDirection(Room* currentRoom)
 {
@@ -32,6 +33,7 @@ string Exit::GetDirection(Room* currentRoom)
 	return currentDirection;
 }
 
+//Returns the destination of the room that connects to the room you're in
 //-------------------------------------------
 Room* Exit::GetDestination(Room* currentRoom)
 {
@@ -42,6 +44,10 @@ Room* Exit::GetDestination(Room* currentRoom)
 	else if (currentRoom == destination)
 	{
 		return origin;
+	}
+	else 
+	{
+		return nullptr;
 	}
 }
 

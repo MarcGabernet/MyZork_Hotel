@@ -1,6 +1,4 @@
 #include <iostream>
-//#include<cstdio>
-//#include<ctime>
 #include <string>
 #include <random>
 
@@ -19,6 +17,7 @@ Player::Player(const char* name, const char* description, string description2, R
 	type = PLAYER;
 };
 
+//states that there isn't the object specified to act on in the room
 //---------------------------------------
 void Player::NothingTo(const string verb)
 {
@@ -29,6 +28,7 @@ void Player::NothingTo(const string verb)
 	cout << ret;
 }
 
+//if actions are not specified, asks what to act on
 //------------------------------------
 bool Player::WhatTo(const string verb)
 {
@@ -58,6 +58,7 @@ bool Player::WhatTo(const string verb)
 	return valid;
 }
 
+//given a list of entities if an entity mathces the name given and the type, the entity will be returned
 //------------------------------------------------------------------------------------------
 Entity* Player::FindInList(const string name, list<Entity*> entities, entityType objectType)
 {
@@ -71,6 +72,8 @@ Entity* Player::FindInList(const string name, list<Entity*> entities, entityType
 	return nullptr;
 }
 
+//haults the compilation of the program for the specified number of seconds
+//-------------------------------
 void Player::Timer(float seconds) 
 {
 	seconds *= CLOCKS_PER_SEC;
@@ -80,6 +83,7 @@ void Player::Timer(float seconds)
 	while (clock() - now < seconds);
 }
 
+//a way to interact with bartender
 //-----------------------------------------------
 void Player::Buy(const string drink, const string paymentMethod, bool paying) 
 {
@@ -116,6 +120,7 @@ void Player::Buy(const string drink, const string paymentMethod, bool paying)
 	}
 }
 
+//way to obtain drink, changes drink location from npc to room
 //--------------------------------------------------------
 void Player::BuyWith(const string drink, const string obj)
 {
@@ -134,6 +139,7 @@ void Player::BuyWith(const string drink, const string obj)
 	}
 }
 
+//Closes exit if open
 //----------------------------------
 void Player::Close(const string door)
 {
@@ -172,6 +178,7 @@ void Player::Close(const string door)
 	}
 }
 
+//Become more drunk or sober drinking
 //------------------------------------
 void Player::Drink(const string drink)
 {
@@ -210,6 +217,7 @@ void Player::Drink(const string drink)
 	}
 }
 
+//The object changes location (inventory->room)
 //------------------------------------------------------------------------
 void Player::Drop(const string obj, bool dropped, bool throwingAtSometing)
 {
@@ -232,6 +240,7 @@ void Player::Drop(const string obj, bool dropped, bool throwingAtSometing)
 	}
 }
 
+//Info about the object the player has in the inventory
 //----------------------
 void Player::Inventory()
 {
@@ -253,6 +262,7 @@ void Player::Inventory()
 	}
 }
 
+//More effective method of opening exits, to kick items does nothing
 //----------------------------------
 void Player::Kick(const string obj)
 {
@@ -296,6 +306,7 @@ void Player::Kick(const string obj)
 	}
 }
 
+//Description of the player
 //-----------------
 void Player::Look() 
 {
@@ -303,6 +314,7 @@ void Player::Look()
 	cout << description2 << "\n";
 }
 
+//description of object
 //---------------------------------
 void Player::Look(const string obj)
 {
@@ -324,6 +336,7 @@ void Player::Look(const string obj)
 	}
 }
 
+//method of dropping all the items at the same time contained in another item
 //---------------------------------
 void Player::Move(const string obj)
 {
@@ -359,6 +372,7 @@ void Player::Move(const string obj)
 	}
 }
 
+//Opens exits that aren't locked
 //-----------------------------------------------
 void Player::Open(const string door, bool gotKey)
 {
@@ -395,6 +409,7 @@ void Player::Open(const string door, bool gotKey)
 	}
 }
 
+//Method of opening exits that are locked (a key is needed)
 //--------------------------------------------------------
 void Player::OpenWith(const string door, const string key)
 {
@@ -435,6 +450,7 @@ void Player::OpenWith(const string door, const string key)
 	}
 }
 
+//Method of changin the location of a pickable object in the room (room->iventory)
 //-----------------------------------
 void Player::PickUp(const string obj) 
 {
@@ -457,6 +473,8 @@ void Player::PickUp(const string obj)
 	}
 }
 
+//presses an object (only does something with button)
+// Also the mothod that ends the game if requirements are met
 //-----------------------------------
 void Player::Press(const string obj)
 {
@@ -487,7 +505,9 @@ void Player::Press(const string obj)
 				cout << outcome[i];
 				Timer(0.05f);
 			}
-			Timer(5.0f);
+			Timer(3.0f);
+			cout << "\n\033[33mThanks for playing this game, hope you liked it!\nNow try getting the other ending (there is a good one and a bad one).\n\nThis application will close in 20 seconds.\n\n";
+			Timer(20.0f);
 			exit(666);
 		}
 	}
@@ -497,6 +517,7 @@ void Player::Press(const string obj)
 	}
 }
 
+//method of placing object inside others if requirements are met
 //--------------------------------------------------------
 void Player::Put(const string obj, const string container)
 {
@@ -514,7 +535,7 @@ void Player::Put(const string obj, const string container)
 			cout << "The " << obj << " can't be moved!\n";
 		}
 	}
-	if (item != nullptr && (container == "player" || container == "me"))
+	if (item != nullptr && (container == "player" || container == "me" || container == "chest"))
 	{
 		objectPutInPlace = true;
 		if (item->name == "heart")
@@ -564,6 +585,7 @@ void Player::Put(const string obj, const string container)
 	}
 }
 
+//method of reading text that could be written on an object
 //---------------------------------
 void Player::Read(const string obj)
 {
@@ -585,6 +607,7 @@ void Player::Read(const string obj)
 	}
 }
 
+//talking to NPC (they have three sentences that use as answer at random)
 //-----------------------------------
 void Player::TalkTo(const string person) 
 {
@@ -633,6 +656,7 @@ void Player::TalkTo(const string person)
 	}
 }
 
+//These next three functions are used in combination to make items throwable, if in inventory also drops them  
 //------------------------------------------------------------------------------------------------
 bool Player::ThrowingFrom(const string obj, list<Entity*> listOfEntities, bool throwingAtSometing)
 {
@@ -681,6 +705,7 @@ bool Player::Throw(const string obj, bool throwingAtSometing)
 	return thrown;
 }
 
+//items can be thrown at other objects (objectives may drop the entities contained in them like the move() method)
 //------------------------------------------------------------
 void Player::ThrowAt(const string obj, const string objective)
 {
@@ -741,6 +766,7 @@ void Player::ThrowAt(const string obj, const string objective)
 	}
 }
 
+//Changes room of player if there is exit in that location
 //----------------------------------------
 void Player::Travel(const char* direction) 
 {
@@ -774,6 +800,7 @@ void Player::Travel(const char* direction)
 	}
 }
 
+//if requirements are met vomiting makes you more sober
 //------------------
 void Player::Vomit() 
 {

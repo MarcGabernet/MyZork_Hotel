@@ -12,6 +12,7 @@ using namespace std;
 //-----------------
 World::~World() {};
 
+//World-building
 //------------
 World::World() 
 {
