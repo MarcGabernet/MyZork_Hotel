@@ -1,7 +1,7 @@
 # MyZork_Hotel
 
 HOTEL:
-
+--------
 This is a Zork-like game. The objective of the game is to reach the elevator of the hotel and go to your "resting place".
 The game follows a main character that doesn't know who he is and has to find out in what kind of hotel it is.
 
@@ -87,9 +87,15 @@ There are pictures attached to the gitHub repository that show a layout of the h
 The link to the gitHub repository:
 https://github.com/MarcGabernet/MyZork_Hotel
 
+PERSONAL NOTES:
+--------
+Being the first time I programmed in C++ it took me a little while to get used to, but afted getting the hang of it I started enjoying the process very much! I feel like this is only the beggining and I am eager to learn more and make more complex programs, I feel like the possiblities are limitless.
 
-For more clarifications and a guide on how to finish the game:
-SPOLIERS
+I'm very happy on how the game turned out, it takes into account many variations of the use of the commands depening on the targets in a very clever way in my opinion.
+
+The game is vague as in what is going on and the actual nature of the Hotel on purpose, so I hope you try to play without looking at the spoilers first!
+
+For more clarifications and a guide on how to finish the game: SPOLIERS
 --------
 --------
 --------
