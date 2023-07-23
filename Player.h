@@ -20,6 +20,7 @@ public:
 	void NothingTo(const string verb);
 	bool WhatTo(const string verb);
 	Entity* FindInList(const string name, list<Entity*> entities, entityType objectType);
+	void Timer(float seconds);
 
 	void Buy(const string drink, const string paymentMethod, bool paying);
 	void BuyWith(const string drink, const string obj);

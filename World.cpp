@@ -160,7 +160,7 @@ World::World()
 	things.push_back(exitHallwayHall);
 	things.push_back(exitHallwayElevator);
 
-	player = new Player("me", "You... who are you? ... who WERE you?", "You feel an emptiness in your chest. Something is off.", southOfHotel);
+	player = new Player("me", "You... who are you? ... who WERE you?", "You feel an emptiness in your chest. Something is off.", elevator);
 
 	things.push_back(player);
 }
@@ -271,6 +271,10 @@ bool World::ExecuteCommand(const vector<string>& args)
 			else if (args[0] == "look" || args[0] == "Look")
 			{
 				player->Look(args[1]);
+			}
+			else if (args[0] == "press" || args[0] == "Press")
+			{
+				player->Press(args[1]);
 			}
 			else if (args[0] == "read" || args[0] == "Read")
 			{

@@ -1,4 +1,6 @@
 #include <iostream>
+//#include<cstdio>
+//#include<ctime>
 #include <string>
 #include <random>
 
@@ -69,6 +71,14 @@ Entity* Player::FindInList(const string name, list<Entity*> entities, entityType
 	return nullptr;
 }
 
+void Player::Timer(float seconds) 
+{
+	seconds *= CLOCKS_PER_SEC;
+
+	clock_t now = clock();
+
+	while (clock() - now < seconds);
+}
 
 //-----------------------------------------------
 void Player::Buy(const string drink, const string paymentMethod, bool paying) 
@@ -444,6 +454,44 @@ void Player::PickUp(const string obj)
 	else
 	{
 		NothingTo("pick up");
+	}
+}
+
+void Player::Press(const string obj)
+{
+	Item* item = (Item*)FindInList(obj, location->entitiesContained, ITEM);
+	if (item != nullptr) 
+	{
+		if (item->name != "button") 
+		{
+			cout << "Pressing the " << obj << " doesn't seem to do anything.\n";
+		}
+		else
+		{
+			const char* ending = "The elevator is SHAKING!\nYou hear an ominous voice coming from ";
+			const char* outcome;
+			if (hasHeart) 
+			{
+				outcome = "above.\n\n\033[36mYou... you have explored this place and found yourself.\nIt is time to go. I will guide you to your resting place,\nwhere all corporeal worries will disapear. Do not be afraid.\033[0m\n\nThe voice stopped. The elevator is accelerating upwards!\n\nIn a blink of an eye you find yourself somewhere new, it looks like paradise.\nYou could stay here for eternity.\n\n";
+			}
+			else 
+			{
+				outcome = "under you.\n\n\033[31mLook what we have here! A sinner!\nIt's too late now to make ammends and find closure.\nYou are coming with me to the bottom of HELL!\nPrepare for an eternity of pain MWAHAHAHA...\033[0m\n\nBefore you could process that information the bottom of the elevator breaks,\nleaving exposed a bottomless hole.\nShadowy hands appear from the pit, grab your legs and pull you to the bottom.\n\nOnly despair awaits you.\n\n";
+			}
+			for (int i = 0; ending[i] != '\0'; ++i) {
+				cout << ending[i];
+				Timer(0.05f);
+			}
+			for (int i = 0; outcome[i] != '\0'; ++i) {
+				cout << outcome[i];
+				Timer(0.05f);
+			}
+			exit(666);
+		}
+	}
+	else 
+	{
+		NothingTo("press");
 	}
 }
 
