@@ -6,28 +6,28 @@ The game follows a main character that doesn't know who he is and has to find ou
 
 You control the player using commands. The commands are:
 Buy _____
-Buy _____ with _____
-Close _____
-Drink _____
-Drop _____
-Inventory
-Kick _____
-Look
-Look _____
-Look at _____
-Move _____
-Open _____
-Open _____ with _____
-Pick up _____
-Press _____
-Put _____ in _____
-Read _____
-Talk to _____
-Throw _____
-Throw _____ at _____
-Throw up
-Vomit
-Travel (north/west/east/south or n/w/e/s)
+/Buy _____ with _____
+/Close _____
+/Drink _____
+/Drop _____
+/Inventory
+/Kick _____
+/Look
+/Look _____
+/Look at _____
+/Move _____
+/Open _____
+/Open _____ with _____
+/Pick up _____
+/Press _____
+/Put _____ in _____
+/Read _____
+/Talk to _____
+/Throw _____
+/Throw _____ at _____
+/Throw up
+/Vomit
+/Travel (north/west/east/south or n/w/e/s)
 
 The _____ in the commands are places where to write the name of the entities that are object of the action performed.
 
@@ -73,11 +73,18 @@ SPOLIERS
 --------
 --------
 The game has two endings depening on if the player has put a heart in himself.
+
 To find the heart move the container located at the west of the hotel
+
 The game end when you press the button loacted in the elevator.
+
 To find the key that opens the gate of the elevator, throw an object at the chandelier, it will fall from there.
+
 Other features are getting drunk: to do that buy a drink from the barman. To buy the drink use the card (credit card) found under the table in the dining hall (move the table)
+
 If you drink the drink you will become a 10% more drunk and have a 10% more chance of not executing the next command because of your intoxication.
+
 To become sober again you can drink to coffee found at the kitchen or throw up/vomit in the bathroom.
+
 Closed exits can be opened with open _____ / kick _____ / open _____ with foot if a key is not needed (with locked door and no key needed only kicking the exit is succesful)
 
