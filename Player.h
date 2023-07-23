@@ -31,7 +31,8 @@ public:
 	void Look();
 	void Look(const string obj);
 	void Move(const string obj);
-	void Open(const string door);
+	void Open(const string door, bool gotKey);
+	void OpenWith(const string door, const string key);
 	void PickUp(const string obj);
 	void Press(const string obj);
 	void Put(const string obj, const string container);

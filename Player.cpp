@@ -302,17 +302,23 @@ void Player::Move(const string obj)
 }
 
 //----------------------------------
-void Player::Open(const string door)
+void Player::Open(const string door, bool gotKey)
 {
 	Exit* ex = (Exit*)FindInList(door, location->entitiesContained, EXIT);
 	if (ex != nullptr) 
 	{
 		if (!ex->isOpen)
 		{
-			if (!ex->isLocked)
+			if (!ex->isLocked || (ex->isLocked && gotKey))
 			{
 				ex->isOpen = true;
-				cout << "You opened the " << ex->description << "!\n";
+				ex->isLocked = false;
+				cout << "You opened the " << ex->description;
+				if (gotKey) 
+				{
+					cout << " using the key";
+				}
+				cout << "!\n";
 			}
 			else
 			{
@@ -327,6 +333,45 @@ void Player::Open(const string door)
 	else 
 	{
 		NothingTo("open");
+	}
+}
+
+void Player::OpenWith(const string door, const string key)
+{
+	if (key == "foot") 
+	{
+		Kick(door);
+	}
+	else
+	{
+		Item* item = (Item*)FindInList(key, entitiesContained, ITEM);
+		Exit* ex = (Exit*)FindInList(door, location->entitiesContained, EXIT);
+		if (item == nullptr) 
+		{
+			Item* item = (Item*)FindInList(key, location->entitiesContained, ITEM);
+		}
+		if (item != nullptr && ex != nullptr)
+		{
+			if (ex->key == item)
+			{
+				Open(door, true);
+				item->~Item();
+			}
+			else
+			{
+				cout << "This " << key << " doesn't open the " << door << ".\n";
+				Open(door, false);
+			}
+		}
+		else if(ex == nullptr)
+		{
+			NothingTo("open");
+		}
+		else 
+		{
+			cout << "There isn't any item with that name in this room or your inventory.\n";
+			Open(door, false);
+		}
 	}
 }
 

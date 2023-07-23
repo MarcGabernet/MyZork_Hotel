@@ -40,6 +40,15 @@ void Room::Look()
 	}
 	cout << "\n";
 
+	//List of NPC's
+	for (list<Entity*>::const_iterator it = entitiesContained.begin(); it != entitiesContained.cend(); ++it)
+	{
+		if ((*it)->type == NPC)
+		{
+			cout << "\nAlso, someone is here: The " << (*it)->name << "\n";
+		}
+	}
+
 	//List of exits
 	for (list<Entity*>::const_iterator it = entitiesContained.begin(); it != entitiesContained.cend(); ++it)
 	{
@@ -57,12 +66,5 @@ void Room::Look()
 		}
 	}
 
-	for (list<Entity*>::const_iterator it = entitiesContained.begin(); it != entitiesContained.cend(); ++it)
-	{
-		if ((*it)->type == NPC)
-		{
-			cout << "\nAlso, someone is here: The" << (*it)->name << "\n";
-		}
-	}
 	cout << "\n";
 }

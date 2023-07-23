@@ -47,6 +47,15 @@ World::World()
 	things.push_back(hallway);
 	things.push_back(elevator);
 	
+	//NPC's
+
+	Npc* receptionist = new Npc("receptionist", "dead", entranceHall);
+	Npc* bartender = new Npc("bartender", "dead", bar);
+	Npc* cook = new Npc("cook", "dead", kitchen);
+
+	things.push_back(receptionist);
+	things.push_back(bartender);
+	things.push_back(cook);
 
 	//Items
 
@@ -71,7 +80,7 @@ World::World()
 
 	Item* chandelier = new Item("chandelier", "A big chandelier hanging from the ceiling. It's made of lots of glass parts and very fancy.", nullptr, entranceHall, false, false, false);
 	Item* key = new Item("key", "A key that looks like it open a door.", "Elevator", chandelier, false, true, false);
-	Item* drink = new Item("drink", "A bottle of some kind of destilled alcohol, it has a sticker in the back with some text.\nIt smells like sanitary alcohol and looks like an evil potion.", drinkText, bar/*barMAN*/, true, true, true);
+	Item* drink = new Item("drink", "A bottle of some kind of destilled alcohol, it has a sticker in the back with some text.\nIt smells like sanitary alcohol and looks like an evil potion.", drinkText, bartender, true, true, true);
 	drink->drinkingEffect = -1;
 	Item* coffee = new Item("coffee", "A cup of hot coffee. Steam is coming out of the cup.\nThere is text written in the cup.", coffeeText, kitchen, true, true, true);
 	coffee->drinkingEffect = 1;
@@ -86,10 +95,6 @@ World::World()
 	things.push_back(table);
 	things.push_back(creditCard);
 	things.push_back(button);
-
-	//NPC's
-
-
 
 	//Exits
 	const char* n = "north";
@@ -130,8 +135,9 @@ World::World()
 	Exit* exitDiningHallway = new Exit(diningRoom, hallway, s, n, true, false, NULL);
 	Exit* exitHallwayHall = new Exit(hallway, entranceHall, w, e, true, false, NULL);
 
-	Exit* exitHallwayElevator = new Exit(hallway, elevator, s, n, false, true, NULL);
-	exitHallwayElevator->description = "elevator door";
+	Exit* exitHallwayElevator = new Exit(hallway, elevator, s, n, false, true, key);
+	exitHallwayElevator->description = "gate";
+	elevator->entitiesContained.remove(exitHallwayElevator);
 
 
 	things.push_back(exitHallBar);
@@ -170,7 +176,7 @@ bool World::Execute(const vector<string>& args) {
 		}
 		else if (player->control >= 1)
 		{
-			cout << "You are extremly drunk, everything is spinning around you!\n";
+			cout << "You are extremly drunk, everything is spinning around you.\n";
 		}
 		cout << "You slipped and fell to the ground so you didn't do what you wanted to!\n";
 	}
@@ -228,7 +234,7 @@ bool World::ExecuteCommand(const vector<string>& args)
 			}
 			else if (args[0] == "open" || args[0] == "Open")
 			{
-				player->Open(args[1]);
+				player->Open(args[1], false);
 			}
 			else if (args[0] == "kick" || args[0] == "Kick")
 			{
@@ -289,11 +295,15 @@ bool World::ExecuteCommand(const vector<string>& args)
 			}
 			break;
 		case 4:
-			if ((args[0] == "put" || args[0] == "Put") && args[2] == "in") 
+			if ((args[0] == "open" || args[0] == "Open") && args[2] == "with")
+			{
+				player->OpenWith(args[1], args[3]);
+			}
+			else if ((args[0] == "put" || args[0] == "Put") && args[2] == "in") 
 			{
 				player->Put(args[1], args[3]);
 			}
-			else if ((args[0] == "Throw" || args[0] == "throw") && args[2] == "at")
+			else if ((args[0] == "throw" || args[0] == "Throw") && args[2] == "at")
 			{
 				player->ThrowAt(args[1], args[3]);
 			}
