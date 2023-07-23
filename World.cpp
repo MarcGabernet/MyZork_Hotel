@@ -160,7 +160,7 @@ World::World()
 	things.push_back(exitHallwayHall);
 	things.push_back(exitHallwayElevator);
 
-	player = new Player("me", "You... who are you? ... who WERE you?", "You feel an emptiness in your chest. Something is off.", elevator);
+	player = new Player("me", "You... who are you? ... who WERE you?", "You feel an emptiness in your chest. Something is off.", southOfHotel);
 
 	things.push_back(player);
 }
