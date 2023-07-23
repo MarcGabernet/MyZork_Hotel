@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <random>
+
 #include "Player.h"
 
 using namespace std;
@@ -54,7 +56,7 @@ bool Player::WhatTo(const string verb)
 	return valid;
 }
 
-//------------------------------------
+//------------------------------------------------------------------------------------------
 Entity* Player::FindInList(const string name, list<Entity*> entities, entityType objectType)
 {
 	for (list<Entity*>::const_iterator it = entities.begin(); it != entities.cend(); ++it)
@@ -68,12 +70,58 @@ Entity* Player::FindInList(const string name, list<Entity*> entities, entityType
 }
 
 
-
-
-//---------------------------------
-void Player::Buy(const string drink) 
+//-----------------------------------------------
+void Player::Buy(const string drink, const string paymentMethod, bool paying) 
 {
+	Npc* bartender = (Npc*)FindInList("bartender", location->entitiesContained, NPC);
+	if (bartender != nullptr && drink == "drink")
+	{
+		cout << "\033[31mBartender:\033[0m ";
+		if (bartender->entitiesContained.size() == 0)
+		{
+			cout << "You already bought a drink, why would you want more?\n";
+		}
+		else if(!paying)
+		{
+			cout << "How are you going to pay? Do you think this is free?\n";
+		}
+		else 
+		{
+			if (paymentMethod == "card") 
+			{
+				cout << "Very well. Here's your drink, take it if you want.\n";
+				cout << "The bartender left the drink on the counter.\n";
+				Item* item = (Item*)FindInList(drink, bartender->entitiesContained, ITEM);
+				item->ChangeLocation(location);
+			}
+			else 
+			{
+				cout << "What do you think this establishment is? I'm not going to accept a " << paymentMethod << " as payment method!\n";
+			}
+		}
+	}
+	else 
+	{
+		NothingTo("buy");
+	}
+}
 
+//--------------------------------------------------------
+void Player::BuyWith(const string drink, const string obj)
+{
+	Item* paymentMethod = (Item*)FindInList(obj, entitiesContained, ITEM);
+	if (paymentMethod == nullptr)
+	{
+		paymentMethod = (Item*)FindInList(obj, location->entitiesContained, ITEM);
+	}
+	if (paymentMethod != nullptr) 
+	{
+		Buy(drink, paymentMethod->name, true);
+	}
+	else 
+	{
+		cout << "The item you are trying to use as payment method doesn't exist!\n";
+	}
 }
 
 //----------------------------------
@@ -114,7 +162,7 @@ void Player::Close(const string door)
 	}
 }
 
-//---------------------------------
+//------------------------------------
 void Player::Drink(const string drink)
 {
 	Item* item = (Item*)FindInList(drink, entitiesContained,ITEM);
@@ -152,7 +200,7 @@ void Player::Drink(const string drink)
 	}
 }
 
-//-----------------------------------------------
+//------------------------------------------------------------------------
 void Player::Drop(const string obj, bool dropped, bool throwingAtSometing)
 {
 	Item* item = (Item*)FindInList(obj, entitiesContained, ITEM);
@@ -301,7 +349,7 @@ void Player::Move(const string obj)
 	}
 }
 
-//----------------------------------
+//-----------------------------------------------
 void Player::Open(const string door, bool gotKey)
 {
 	Exit* ex = (Exit*)FindInList(door, location->entitiesContained, EXIT);
@@ -316,7 +364,8 @@ void Player::Open(const string door, bool gotKey)
 				cout << "You opened the " << ex->description;
 				if (gotKey) 
 				{
-					cout << " using the key";
+					cout << " using the key!\n";
+					cout << "After using it, it disappeared into thin air";
 				}
 				cout << "!\n";
 			}
@@ -336,6 +385,7 @@ void Player::Open(const string door, bool gotKey)
 	}
 }
 
+//--------------------------------------------------------
 void Player::OpenWith(const string door, const string key)
 {
 	if (key == "foot") 
@@ -482,6 +532,54 @@ void Player::Read(const string obj)
 	else
 	{
 		NothingTo("read");
+	}
+}
+
+//-----------------------------------
+void Player::TalkTo(const string person) 
+{
+	Npc* npc = (Npc*)FindInList(person, location->entitiesContained, NPC);
+	if (npc != nullptr) 
+	{
+		cout << "\033[31m" << person << ":\033[0m ";
+
+		if (!npc->introduced)
+		{
+			cout << npc->presentationDialog << "\n";
+			npc->introduced = true;
+		}
+		else 
+		{
+			random_device rd;
+			mt19937 generator(rd());
+			uniform_int_distribution<int> distribution(1, 3);
+
+			int randomNumber = distribution(generator);
+
+			switch (randomNumber)
+			{
+			case 1:
+				cout << npc->dialog1 << "\n";
+				break;
+			case 2:
+				cout << npc->dialog2 << "\n";
+				break;
+			case 3:
+				cout << npc->dialog3 << "\n";
+				break;
+			}
+		}
+	}
+	else 
+	{
+		if (person == "me" || person == "player" || person == "myself")
+		{
+			cout << "Are you that lonely?\n";
+		}
+		else
+		{
+			cout << "There is no one here that fits that description. Are you seeing ghosts?\n";
+		}
 	}
 }
 

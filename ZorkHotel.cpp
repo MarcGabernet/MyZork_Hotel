@@ -18,7 +18,7 @@ int main()
     World world;
 
     cout << RED_TEXT;
-    cout << "My Zork: Hotel\n\n";
+    cout << "My Zork: Hotel Basinski\n\n";
 
     cout << YELLOW_TEXT;
     cout << "You find yourself in a floating island. In this island there is only one building, a Hotel.\n";

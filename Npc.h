@@ -17,8 +17,11 @@ public:
 	~Npc();
 
 public:
-	string dialog1;
-	string dialog2;
+	bool introduced = false;
+	string presentationDialog = "Hello";
+	string dialog1 = "1..";
+	string dialog2 = "2..";
+	string dialog3 = "3..";
 };
 
 #endif

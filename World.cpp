@@ -49,9 +49,21 @@ World::World()
 	
 	//NPC's
 
-	Npc* receptionist = new Npc("receptionist", "dead", entranceHall);
-	Npc* bartender = new Npc("bartender", "dead", bar);
-	Npc* cook = new Npc("cook", "dead", kitchen);
+	Npc* receptionist = new Npc("receptionist", "A well dressed man with a disturbing smile on his face. He seems to be staring at you.", entranceHall);
+	receptionist->presentationDialog = "Welcome to the Grand Hotel Basinski! The hotel where you can check out any time you like!\n...\n...\nBut you can never leave.";
+	receptionist->dialog1 = "Excuse the mess this hotel is in!\nIt's actually off-season right now so the cleaning workers don't come as often.";
+	receptionist->dialog2 = "Did you see the chandelier he have hanging in this room? Beautiful isn't it?\nToo bad sometimes things get stuck in it.\nAt least they are easy to get back, usually THROWING something at it does the trick.";
+	receptionist->dialog3 = "We accept all kinds of people in this hotel, but only the ones with a good HEART get the better rooms.";
+	Npc* bartender = new Npc("bartender", "A shady man that looks tired of working. He keeps claning the same part of the counter.", bar);
+	bartender->presentationDialog = "Good day sir! Would you like to buy something? If not, get out of here prick!";
+	bartender->dialog1 = "By the way, I was just kidding with what I first told you.\nWe actually don't recieve lots of clients so feel free to stick around.";
+	bartender->dialog2 = "I'm running low on things to sell, the only decent thing I have is a big bottle.\nI don't even know what kind of DRINK it is.";
+	bartender->dialog3 = "Be careful with alcohol, it could make you want to throw up!\nLuckly for you I just cleaned the bathrooms so if you want to do it, do it there.";
+	Npc* cook = new Npc("cook", "A greasy-looking man that seems to be busy cooking somthing that smells even worse than him.", kitchen);
+	cook->presentationDialog = "Hey you! This is the kitchen! Don't you see that I'm busy?\nI'm cooking in case clients come to the restaurant of the hotel.";
+	cook->dialog1 = "Who am I lying to? Nobody comes to my restuarant!\nThe few client of this hotel never seem to be hungry.\nI'm going to have to eat all of this so it doesn't spoil.";
+	cook->dialog2 = "I made some coffee if you want some, it usualy helps me stay awake and DO WHAT I WANT TO DO.\nAt least it's healthier that anything that the stupid bartender tries to sell to you.";
+	cook->dialog3 = "Recently someone ate here at my restaurant but had to leave urgently.\nI think he left SOMETHING AT THE TABLE where he ate.\nIt probably fell under it so I didn't bother picking it up.";
 
 	things.push_back(receptionist);
 	things.push_back(bartender);
@@ -60,7 +72,7 @@ World::World()
 	//Items
 
 	//Items: Outside
-	const char* gameInfo = "Welcome to the Hotel!\n\nYou don't know why you are here, nobody does when they arrive.\nBelieve it or not this hotel will be where you live from now on.\nSo don't be afraid to enter and go to your room.\nTo do that take the elevator: It will guide you to your \"resting place\".";
+	const char* gameInfo = "Welcome to the Hotel Basinski!\n\nYou don't know why you are here, nobody does when they arrive.\nBelieve it or not this hotel will be where you live from now on.\nSo don't be afraid to enter and go to your room.\nTo do that take the elevator: It will guide you to your \"resting place\".";
 	
 	Item* sign = new Item("sign", "A sign with text on it.", gameInfo, southOfHotel, false, false, false);
 	Item* garbage = new Item("container", "A garbage container. Where the Hotel throws away their waste.", nullptr, westOfHotel, false, false, true);
@@ -228,7 +240,11 @@ bool World::ExecuteCommand(const vector<string>& args)
 			break;
 
 		case 2:
-			if (args[0] == "close" || args[0] == "Close")
+			if (args[0] == "buy" || args[0] == "Buy")
+			{
+				player->Buy(args[1], " ", false);
+			}
+			else if (args[0] == "close" || args[0] == "Close")
 			{
 				player->Close(args[1]);
 			}
@@ -278,6 +294,10 @@ bool World::ExecuteCommand(const vector<string>& args)
 			{
 				player->PickUp(args[2]);
 			}
+			else if ((args[0] == "talk" || args[0] == "Talk") && args[1] == "to")
+			{
+				player->TalkTo(args[2]);
+			}
 			else if ((args[0] == "look" || args[0] == "Look") && args[1] == "at")
 			{
 				if (args[2] == "myself") 
@@ -295,7 +315,11 @@ bool World::ExecuteCommand(const vector<string>& args)
 			}
 			break;
 		case 4:
-			if ((args[0] == "open" || args[0] == "Open") && args[2] == "with")
+			if ((args[0] == "buy" || args[0] == "Buy") && args[2] == "with")
+			{
+				player->BuyWith(args[1], args[3]);
+			}
+			else if ((args[0] == "open" || args[0] == "Open") && args[2] == "with")
 			{
 				player->OpenWith(args[1], args[3]);
 			}

@@ -21,11 +21,11 @@ public:
 	bool WhatTo(const string verb);
 	Entity* FindInList(const string name, list<Entity*> entities, entityType objectType);
 
-	void Buy(const string drink);
+	void Buy(const string drink, const string paymentMethod, bool paying);
+	void BuyWith(const string drink, const string obj);
 	void Close(const string door);
 	void Drink(const string drink);
 	void Drop(const string obj, bool dropped, bool throwingAtSometing);
-	void Insert(const vector<string>& args);
 	void Inventory();
 	void Kick(const string obj);
 	void Look();
@@ -37,7 +37,7 @@ public:
 	void Press(const string obj);
 	void Put(const string obj, const string container);
 	void Read(const string obj);
-	void TalkTo(const vector<string>& args);
+	void TalkTo(const string obj);
 	bool ThrowingFrom(const string obj, list<Entity*> list, bool throwingAtSometing);
 	bool Throw(const string obj, bool throwingAtSometing);
 	void ThrowAt(const string obj, const string objective);
