@@ -66,6 +66,8 @@ Some exits can be opened withou keys, some are locked but don't have a key assig
 Items can be dropped by dropping them or throwing them.
 Throwing can also be targeted, sometimes things happen when you throw an object at another.
 
+There is a readable sign in the initial room that gives a hint about the game's objective and ending.
+
 NPC will give you hints about the mechanics of the game of you talk to them.
 They have four dialog options, some try talking to them until they saig everything they can say.
 
