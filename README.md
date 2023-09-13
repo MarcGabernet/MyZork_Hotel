@@ -2,6 +2,9 @@
 
 HOTEL:
 --------
+
+This game was developed as an entry test into the "Advanced programming for AAA video games" UPC's Master's degree.
+
 This is a Zork-like game. The objective of the game is to reach the elevator of the hotel and go to your "resting place".
 The game follows a main character that doesn't know who he is and has to find out in what kind of hotel it is.
 
@@ -82,7 +85,7 @@ You can also interact with yourself: look at yourself and putting thins in you. 
 
 There is more than one ending, depending on the characteristics of the player when finsihing the game.
 
-This game was fully developed and designed by me: Marc Gabernet Rodríguez. The original idea of the setting was developed by me and the artist @enuji_robotto (Instagram) and is intened to be developed into a videogame in the future.
+This game was fully programmed by me: Marc Gabernet Rodríguez. The original idea of the setting and design was developed by me and the artist @enuji_robotto (Instagram) and is intened to be developed into a videogame in the future.
 
 There are pictures attached to the gitHub repository that show a layout of the hotel and the outside of the hotel. In the layout there are also shown the objects in their respective rooms (spoilers).
 
