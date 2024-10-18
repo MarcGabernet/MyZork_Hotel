@@ -102,11 +102,6 @@ The game is vague as in what is going on and the actual nature of the Hotel on p
 
 For more clarifications and a guide on how to finish the game: SPOLIERS
 --------
---------
---------
---------
---------
---------
 -The game has two endings depening on if the player has put a heart in himself.
 
 -To find the heart move the container located at the west of the hotel
